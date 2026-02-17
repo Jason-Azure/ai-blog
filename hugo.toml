@@ -1,0 +1,122 @@
+baseURL = "https://Jason-Azure.github.io/ai-blog/"
+languageCode = "zh-CN"
+defaultContentLanguage = "zh"
+title = "AI 学习笔记"
+theme = "PaperMod"
+[pagination]
+  pagerSize = 10
+enableEmoji = true
+
+[params]
+  env = "production"
+  description = "AI 培训讲师的技术博客 — 分享 AI 基础知识、大模型实战、工具教程"
+  author = "AI Lab"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  displayFullLangName = true
+
+  [params.homeInfoParams]
+    Title = "你好，欢迎来到 AI 学习笔记"
+    Content = """
+欢迎！这里是一位 AI 培训讲师的技术博客。\n
+我会在这里分享 **AI 基础知识**、**大语言模型 (LLM) 实战**、**实用工具教程** 和 **教学视频**。\n
+希望这些内容能帮助你在 AI 领域快速入门、持续进步。
+"""
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/"
+
+  [params.editPost]
+    URL = "https://github.com/Jason-Azure/ai-blog/tree/main/content"
+    Text = "编辑建议"
+    appendFilePath = true
+
+  [params.label]
+    text = "AI 学习笔记"
+    icon = ""
+    iconHeight = 35
+
+  # Giscus 评论 (预留，启用后取消注释)
+  # [params.giscus]
+  #   repo = "<username>/ai-blog"
+  #   repoID = ""
+  #   category = "Announcements"
+  #   categoryID = ""
+  #   mapping = "pathname"
+  #   reactionsEnabled = "1"
+  #   emitMetadata = "0"
+  #   inputPosition = "top"
+  #   theme = "preferred_color_scheme"
+  #   lang = "zh-CN"
+
+[params.assets]
+  disableFingerprinting = false
+
+[params.cover]
+  hidden = false
+  hiddenInList = false
+  hiddenInSingle = false
+
+[params.fuseOpts]
+  isCaseSensitive = false
+  shouldSort = true
+  location = 0
+  distance = 1000
+  threshold = 0.4
+  minMatchCharLength = 0
+  keys = ["title", "permalink", "summary", "content"]
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "文章"
+    url = "/posts/"
+    weight = 10
+  [[menu.main]]
+    identifier = "categories"
+    name = "分类"
+    url = "/categories/"
+    weight = 20
+  [[menu.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags/"
+    weight = 30
+  [[menu.main]]
+    identifier = "search"
+    name = "搜索"
+    url = "/search/"
+    weight = 40
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 50
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    noClasses = false
+    style = "monokai"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

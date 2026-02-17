@@ -1,0 +1,12 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "扫码关注" -}}
+{{- $caption := .Get "caption" | default "" -}}
+<div style="text-align: center; margin: 2em auto; max-width: 280px;">
+  <div style="background: var(--entry); border-radius: 12px; padding: 1.5em; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <img src="{{ $src }}" alt="{{ $alt }}"
+      style="width: 200px; height: 200px; border-radius: 8px; display: block; margin: 0 auto;" />
+    {{- if $caption -}}
+    <p style="margin: 1em 0 0; color: var(--secondary); font-size: 0.9em;">{{ $caption }}</p>
+    {{- end -}}
+  </div>
+</div>

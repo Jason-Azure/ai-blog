@@ -1,0 +1,24 @@
+{{- $src := .Get "src" -}}
+{{- $title := .Get "title" | default "" -}}
+{{- $type := .Get "type" | default "iframe" -}}
+
+{{- if eq $type "html5" -}}
+<div style="margin: 1.5em 0;">
+  <video controls playsinline style="width: 100%; border-radius: 8px;"
+    {{- with .Get "poster" }} poster="{{ . }}"{{ end -}}>
+    <source src="{{ $src }}" type="video/mp4">
+    您的浏览器不支持 HTML5 视频。
+  </video>
+</div>
+{{- else -}}
+<div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 1.5em 0; border-radius: 8px;">
+  <iframe src="{{ $src }}"
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+    allowfullscreen="true">
+  </iframe>
+</div>
+{{- end -}}
+
+{{- if $title -}}
+<p style="text-align: center; color: var(--secondary); font-size: 0.9em; margin-top: -0.5em;">{{ $title }}</p>
+{{- end -}}

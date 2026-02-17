@@ -1,0 +1,15 @@
+{{- $src := .Get "src" -}}
+{{- $title := .Get "title" | default "在线演示" -}}
+{{- $height := .Get "height" | default "500" -}}
+<div style="margin: 1.5em 0;">
+  <div style="background: var(--entry); border-radius: 8px; overflow: hidden; border: 1px solid var(--border);">
+    <div style="padding: 0.5em 1em; background: var(--code-bg); font-size: 0.85em; color: var(--secondary);">
+      {{ $title }}
+    </div>
+    <iframe src="{{ $src }}"
+      style="width: 100%; height: {{ $height }}px; border: none;"
+      sandbox="allow-scripts allow-same-origin"
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
