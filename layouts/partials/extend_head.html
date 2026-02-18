@@ -1,51 +1,225 @@
 {{- /* Head custom content area start */ -}}
 {{- if .IsHome }}
 <style>
-/* ========== AI Framework Panorama ========== */
+/* ========== AI Section Custom Properties ========== */
+:root {
+  --pill-glow: rgba(99, 102, 241, 0.35);
+  --pill-grad-start: #6366f1;
+  --pill-grad-end: #8b5cf6;
+  --pill-accent: #ec4899;
+}
+[data-theme="dark"] {
+  --pill-glow: rgba(139, 92, 246, 0.45);
+  --pill-grad-start: #7c3aed;
+  --pill-grad-end: #a78bfa;
+  --pill-accent: #f472b6;
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ========== AI Framework Panorama — Glassmorphism ========== */
 .ai-framework {
   margin: 2em 0;
-  padding: 1.5em;
-  background: var(--entry);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-}
-.ai-framework h2 {
+  padding: 2em;
   text-align: center;
-  margin-bottom: 1em;
-  font-size: 1.3em;
+  background: linear-gradient(135deg,
+    rgba(99, 102, 241, 0.07),
+    rgba(139, 92, 246, 0.04),
+    rgba(236, 72, 153, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06),
+              inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
+[data-theme="dark"] .ai-framework {
+  background: linear-gradient(135deg,
+    rgba(99, 102, 241, 0.1),
+    rgba(139, 92, 246, 0.06),
+    rgba(236, 72, 153, 0.04));
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Title — Animated Gradient Text */
+.ai-framework h2 {
+  display: inline-block;
+  margin-bottom: 1.2em;
+  font-size: 1.4em;
+  font-weight: 700;
+  background: linear-gradient(90deg,
+    var(--pill-grad-start), var(--pill-grad-end),
+    var(--pill-accent), var(--pill-grad-start));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Flow Layout */
 .ai-framework-flow {
   display: flex;
   align-items: stretch;
   gap: 0;
 }
+
+/* Columns — Frosted Glass Cards */
 .ai-col {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1em;
-  border: 1px dashed var(--border);
-  border-radius: var(--radius);
+  padding: 1.2em;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
   text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05),
+              inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+[data-theme="dark"] .ai-col {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+.ai-col:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* AI Core — Rotating Gradient Border */
 .ai-col.ai-core {
   flex: 2;
+  position: relative;
+  border: none;
+  background: transparent;
+  isolation: isolate;
+}
+.ai-col.ai-core::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 14px;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    var(--pill-grad-start),
+    var(--pill-grad-end),
+    var(--pill-accent),
+    var(--pill-grad-start));
+  z-index: -2;
+  animation: rotateBorder 4s linear infinite;
+}
+.ai-col.ai-core::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 10px;
   background: var(--code-bg);
+  z-index: -1;
 }
+@keyframes rotateBorder {
+  to { --border-angle: 360deg; }
+}
+
+/* Column Headers — Chip Style */
 .ai-col h3 {
-  margin-bottom: 0.8em;
-  font-size: 1.05em;
+  display: inline-block;
+  margin-bottom: 1em;
+  padding: 0.3em 1em;
+  font-size: 0.95em;
+  font-weight: 600;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--pill-grad-start), var(--pill-grad-end));
+  color: #fff;
+  box-shadow: 0 2px 8px var(--pill-glow);
 }
+.ai-col.ai-core h3 {
+  background: linear-gradient(135deg, var(--pill-accent), #f43f5e);
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+}
+
+/* Side Column Items — Floating */
+.ai-col-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+.ai-col-items span {
+  padding: 0.45em 0.8em;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  border-radius: 8px;
+  font-size: 0.9em;
+  font-weight: 500;
+  color: var(--primary);
+  animation: gentleFloat 3s ease-in-out infinite;
+}
+[data-theme="dark"] .ai-col-items span {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.15);
+}
+.ai-col-items span:nth-child(2) { animation-delay: 0.5s; }
+.ai-col-items span:nth-child(3) { animation-delay: 1s; }
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* Arrows — Animated Data Flow */
 .ai-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8em;
-  padding: 0 0.3em;
-  color: var(--secondary);
+  padding: 0 0.6em;
+  position: relative;
+  font-size: 0;
+  color: transparent;
+  width: 60px;
+  min-height: 40px;
+  overflow: visible;
 }
+.ai-arrow::before {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--pill-grad-start));
+  border-radius: 1px;
+}
+.ai-arrow::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pill-grad-end);
+  box-shadow: 0 0 6px var(--pill-glow), 0 0 12px var(--pill-glow);
+  animation: flowDot 2s ease-in-out infinite;
+}
+@keyframes flowDot {
+  0%   { left: 4px; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: calc(100% - 12px); opacity: 0; }
+}
+
+/* Pills — Gradient + Shimmer + Glow */
 .ai-pills {
   display: flex;
   flex-wrap: wrap;
@@ -55,51 +229,80 @@
 .ai-pill {
   position: relative;
   display: inline-block;
-  padding: 0.35em 0.75em;
-  background: var(--primary);
-  color: var(--theme);
+  padding: 0.4em 0.85em;
+  background: linear-gradient(135deg, var(--pill-grad-start), var(--pill-grad-end));
+  color: #fff;
   border-radius: 999px;
   font-size: 0.85em;
-  font-weight: 500;
+  font-weight: 600;
   cursor: default;
-  transition: transform 0.2s;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 8px var(--pill-glow);
 }
 .ai-pill:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 4px 16px var(--pill-glow), 0 0 20px var(--pill-glow);
 }
-.ai-pill::before {
+
+/* Tooltip (::before) */
+.ai-pill[data-tooltip]::before {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%);
   padding: 0.5em 0.8em;
-  background: var(--primary);
-  color: var(--theme);
-  border-radius: var(--radius);
-  font-size: 0.8em;
+  background: rgba(30, 30, 30, 0.92);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.78em;
   font-weight: 400;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
   z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+[data-theme="dark"] .ai-pill[data-tooltip]::before {
+  background: rgba(0, 0, 0, 0.88);
 }
 .ai-pill:hover::before {
   opacity: 1;
 }
-.ai-col-items {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4em;
+
+/* Shimmer Sweep (::after) */
+.ai-pill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent);
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
 }
-.ai-col-items span {
-  padding: 0.3em 0.6em;
-  background: var(--code-bg);
-  border-radius: var(--radius);
-  font-size: 0.9em;
+@keyframes shimmer {
+  0%   { left: -100%; }
+  50%  { left: 100%; }
+  100% { left: 100%; }
 }
+.ai-pill:nth-child(2)::after  { animation-delay: 0.25s; }
+.ai-pill:nth-child(3)::after  { animation-delay: 0.5s; }
+.ai-pill:nth-child(4)::after  { animation-delay: 0.75s; }
+.ai-pill:nth-child(5)::after  { animation-delay: 1.0s; }
+.ai-pill:nth-child(6)::after  { animation-delay: 1.25s; }
+.ai-pill:nth-child(7)::after  { animation-delay: 1.5s; }
+.ai-pill:nth-child(8)::after  { animation-delay: 1.75s; }
+.ai-pill:nth-child(9)::after  { animation-delay: 2.0s; }
+.ai-pill:nth-child(10)::after { animation-delay: 2.25s; }
+.ai-pill:nth-child(11)::after { animation-delay: 2.5s; }
+.ai-pill:nth-child(12)::after { animation-delay: 2.75s; }
 
 /* ========== Stats Bar ========== */
 .stats-bar {
@@ -163,6 +366,17 @@
   margin-bottom: 0.8em;
 }
 
+/* ========== Accessibility ========== */
+@media (prefers-reduced-motion: reduce) {
+  .ai-pill::after,
+  .ai-arrow::after,
+  .ai-framework h2,
+  .ai-col-items span,
+  .ai-col.ai-core::before {
+    animation: none !important;
+  }
+}
+
 /* ========== Mobile Responsive ========== */
 @media (max-width: 768px) {
   .ai-framework-flow {
@@ -170,13 +384,31 @@
     gap: 0;
   }
   .ai-arrow {
-    transform: rotate(90deg);
-    padding: 0.2em 0;
+    width: auto;
+    height: 40px;
+    min-height: 40px;
+    padding: 0.3em 0;
+  }
+  .ai-arrow::before {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(180deg, transparent, var(--pill-grad-start));
+  }
+  .ai-arrow::after {
+    animation-name: flowDotV;
+    left: 50% !important;
+    transform: translateX(-50%);
+  }
+  @keyframes flowDotV {
+    0%   { top: 0; opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { top: calc(100% - 8px); opacity: 0; }
   }
   .ai-col {
     width: 100%;
   }
-  .ai-pill::before {
+  .ai-pill[data-tooltip]::before {
     white-space: normal;
     min-width: 180px;
     max-width: 240px;
