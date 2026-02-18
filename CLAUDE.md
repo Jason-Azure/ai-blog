@@ -7,30 +7,179 @@
 - **本地路径:** ~/ai-blog/
 - **技术栈:** Hugo 0.146.0 + PaperMod 主题 + GitHub Pages
 - **部署方式:** push 到 main → GitHub Actions 自动构建 → GitHub Pages
+- **语言:** 中文 (zh-CN)
+- **主题模式:** 自动切换明/暗色 (defaultTheme = "auto")
+
+## 架构全景
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        用户访问博客                              │
+│              https://Jason-Azure.github.io/ai-blog/             │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+                    GitHub Pages 托管
+                           │
+┌──────────────────────────┴──────────────────────────────────────┐
+│                     GitHub Actions CI/CD                         │
+│              .github/workflows/hugo.yml                         │
+│    push main → hugo --gc --minify → 部署到 GitHub Pages         │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+┌──────────────────────────┴──────────────────────────────────────┐
+│                     Hugo 静态站点生成                            │
+│                                                                  │
+│  hugo.toml (配置) + content/ (内容) + layouts/ (模板)            │
+│       + themes/PaperMod/ (主题) → public/ (构建输出)             │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 外部服务依赖
+
+| 服务 | 地址 | 用途 |
+|------|------|------|
+| GitHub Pages | github.io | 静态站点托管 |
+| GitHub Actions | .github/workflows/ | CI/CD 自动构建部署 |
+| Twikoo (Vercel) | https://ai-blog2026.vercel.app | 留言板后端 |
+| MongoDB Atlas | cloud.mongodb.com | Twikoo 数据存储（免费 M0） |
+| 不蒜子 | busuanzi.ibruce.info | 访问量/访客统计 |
+| jsDelivr CDN | cdn.jsdelivr.net | Twikoo 前端 JS |
 
 ## 目录结构
 
 ```
 ~/ai-blog/
 ├── hugo.toml                          # 站点配置（语言、菜单、主题参数）
+├── CLAUDE.md                          # 本文件 — 项目维护指南
 ├── .github/workflows/hugo.yml         # CI/CD 自动部署
+├── .gitmodules                        # PaperMod 子模块声明
 ├── content/
 │   ├── about/index.md                 # 关于页面
 │   ├── search/index.md                # 搜索页面（PaperMod 内置）
 │   └── posts/                         # 文章目录
-│       ├── hello-world/index.md
-│       └── llm-data-pipeline/index.md
+│       ├── hello-world/index.md       # 博客上线公告
+│       ├── llm-data-pipeline/index.md # LLM 数据处理全流程
+│       └── llm-pipeline-visual/index.md # LLM 全流程可视化
 ├── layouts/
-│   ├── shortcodes/                    # 自定义 shortcodes
-│   │   ├── bilibili.html             # B 站视频嵌入
-│   │   ├── video.html                # 通用视频 (iframe / HTML5)
-│   │   ├── wechat-qr.html            # 微信二维码卡片
-│   │   └── sandbox.html              # 交互式代码沙盒 iframe
-│   └── partials/
-│       └── comments.html             # Giscus 评论（预留，需启用）
-├── static/images/                     # 图片资源
+│   ├── index.html                     # 首页模板（自定义 6 区块着陆页）
+│   ├── partials/
+│   │   ├── comments.html              # Twikoo 评论系统集成
+│   │   ├── extend_head.html           # 首页专属 CSS（暗色模式+响应式）
+│   │   └── extend_footer.html         # 不蒜子统计脚本（仅首页）
+│   └── shortcodes/
+│       ├── bilibili.html              # B 站视频嵌入
+│       ├── video.html                 # 通用视频 (iframe / HTML5)
+│       ├── wechat-qr.html            # 微信二维码卡片
+│       └── sandbox.html               # 交互式代码沙盒 iframe
+├── static/images/
+│   └── wechat-group-qr.jpg           # 微信群二维码
 └── themes/PaperMod/                   # 主题 (git submodule，勿直接修改)
 ```
+
+## 首页区块结构 (layouts/index.html)
+
+首页为自定义着陆页，包含 6 个区块：
+
+```
+┌─────────────────────────────────────────┐
+│  1. 欢迎语 (homeInfoParams)              │  复用 PaperMod home_info.html
+├─────────────────────────────────────────┤
+│  2. 企业 AI 框架全景图                    │  三列流程: 输入→核心系统→输出
+│     12 个术语 pill，悬停显示 CSS tooltip   │  纯 CSS，零 JS
+├─────────────────────────────────────────┤
+│  3. 统计栏                               │  日期 + 不蒜子 PV/UV
+├─────────────────────────────────────────┤
+│  4. 微信群二维码卡片                      │  左图右文布局
+├─────────────────────────────────────────┤
+│  5. 留言板 (Twikoo)                      │  游客可留言，无需登录
+├─────────────────────────────────────────┤
+│  6. 最近文章列表                          │  复用 PaperMod 分页逻辑
+└─────────────────────────────────────────┘
+```
+
+### AI 框架全景图术语
+
+| 术语 | Tooltip 解释 |
+|------|-------------|
+| LLM | 大语言模型 — 理解和生成自然语言的核心引擎 |
+| Agent | 智能代理 — 自主规划、调用工具完成复杂目标 |
+| RAG | 检索增强生成 — 让 AI 查询外部知识库 |
+| MCP | 模型上下文协议 — AI 与外部工具的连接标准 |
+| Skills | 技能插件 — 赋予 AI 专业能力的可复用模块 |
+| Prompt Engineering | 提示词工程 — 精心设计指令引导高质量输出 |
+| Fine-tuning | 微调 — 用领域数据定制模型 |
+| Embedding | 向量嵌入 — 文本转数字向量，理解语义 |
+| Vector DB | 向量数据库 — 语义向量存储与检索 |
+| Token | 分词单元 — LLM 处理文本的最小单位 |
+| CoT | 思维链推理 — 逐步推理提高准确性 |
+| Transformer | 变换器 — 现代 LLM 的核心神经网络架构 |
+
+## 评论系统 (Twikoo)
+
+### 当前配置
+
+```toml
+# hugo.toml
+comments = true
+[params.twikoo]
+  envId = "https://ai-blog2026.vercel.app"
+  lang = "zh-CN"
+```
+
+### 组件架构
+
+```
+用户留言 → 博客前端 (twikoo.min.js v1.6.44)
+               ↓
+         Vercel 云函数 (https://ai-blog2026.vercel.app)
+               ↓
+         MongoDB Atlas (免费 M0 集群)
+```
+
+### 管理面板
+
+在博客留言板区域点击 ⚙️ 齿轮图标，输入管理员密码登录。可配置：
+- `REQUIRED_FIELDS`: 必填项（当前设为 `nick` 仅昵称必填）
+- 垃圾评论过滤 (Akismet)
+- 邮件通知 (SMTP)
+- 评论审核开关
+
+### Twikoo 维护
+
+- **Vercel 项目:** 登录 vercel.com 查看部署状态
+- **MongoDB:** 登录 cloud.mongodb.com 查看数据
+- **环境变量:** Vercel Settings → Environment Variables → `MONGODB_URI`
+
+## 流量统计 (不蒜子)
+
+- **脚本:** `//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js`
+- **加载位置:** `extend_footer.html`，仅首页加载 (`{{ if .IsHome }}`)
+- **显示指标:** 总访问 PV (`busuanzi_value_site_pv`) + 访客 UV (`busuanzi_value_site_uv`)
+
+## CSS 样式说明 (extend_head.html)
+
+仅在首页加载 (`{{ if .IsHome }}`)，使用 PaperMod CSS 变量实现自动暗色模式：
+
+| CSS 变量 | 亮色模式 | 暗色模式 | 用途 |
+|----------|---------|---------|------|
+| `--primary` | rgb(30,30,30) | rgb(218,218,219) | pill 背景、文字 |
+| `--theme` | rgb(255,255,255) | rgb(29,30,32) | pill 文字、页面背景 |
+| `--entry` | rgb(255,255,255) | rgb(46,46,51) | 卡片背景 |
+| `--border` | rgb(238,238,238) | rgb(51,51,51) | 边框 |
+| `--secondary` | rgb(108,108,108) | rgb(155,156,157) | 次要文字 |
+| `--code-bg` | rgb(245,245,245) | rgb(55,56,62) | AI 核心区域背景 |
+
+响应式断点: `@media (max-width: 768px)` — 三列→垂直堆叠，箭头旋转 90°
+
+## 导航菜单
+
+| 菜单项 | URL | 权重(排序) |
+|--------|-----|-----------|
+| 文章 | /posts/ | 10 |
+| 分类 | /categories/ | 20 |
+| 标签 | /tags/ | 30 |
+| 搜索 | /search/ | 40 |
+| 关于 | /about/ | 50 |
 
 ## 写新文章
 
@@ -46,6 +195,7 @@ mkdir -p content/posts/my-new-post
 
 # 3. 本地预览
 hugo server
+# 访问 http://localhost:1313/ai-blog/
 
 # 4. 发布
 git add content/posts/my-new-post/
@@ -64,6 +214,7 @@ draft: false
 summary: "一两句话描述，显示在列表页和 SEO 中"
 categories: ["AI 基础"]
 tags: ["标签1", "标签2"]
+weight: 1            # 显示顺序
 ShowToc: true        # 显示目录导航（长文推荐开启）
 TocOpen: true        # 目录默认展开
 # cover:
@@ -182,14 +333,34 @@ gh run list --repo Jason-Azure/ai-blog --limit 3
 gh run view <run-id> --repo Jason-Azure/ai-blog --log-failed
 ```
 
-## 待启用功能
+### 更新微信群二维码
 
-### Giscus 评论系统
+```bash
+# 从 Windows 电脑传图到 VM
+scp chatgroup.jpg azureuser@20.10.135.83:~/ai-blog/static/images/wechat-group-qr.jpg
 
-1. 在 GitHub 仓库 Settings → Features → 勾选 Discussions
-2. 访问 https://giscus.app/ ，填入 `Jason-Azure/ai-blog`，获取 `repoID` 和 `categoryID`
-3. 编辑 `hugo.toml`，取消 `[params.giscus]` 部分的注释，填入对应值
-4. push 即可生效
+# 在 VM 上提交
+cd ~/ai-blog
+git add static/images/wechat-group-qr.jpg
+git commit -m "Update WeChat group QR code"
+git push
+```
+
+## GitHub Actions 工作流 (.github/workflows/hugo.yml)
+
+```
+触发: push main 或手动 workflow_dispatch
+    ↓
+Build (ubuntu-latest):
+    安装 Hugo 0.146.0 → checkout (含 submodule) → hugo --gc --minify → 上传 artifact
+    ↓
+Deploy:
+    部署到 GitHub Pages 环境
+    ↓
+~30 秒后上线
+```
+
+## 待优化功能
 
 ### Cloudflare CDN 加速（国内访问）
 
@@ -205,3 +376,5 @@ gh run view <run-id> --repo Jason-Azure/ai-blog --log-failed
 - 图片尽量压缩后再放入，推荐 WebP 格式
 - `hugo.toml` 中 `baseURL` 必须与实际部署地址匹配
 - Front Matter 中 `draft: true` 的文章不会发布（本地 `hugo server -D` 可预览）
+- Twikoo 的 Vercel 域名已固定为 `ai-blog2026.vercel.app`，无需随部署变化
+- 不蒜子统计为第三方免费服务，偶尔可能不可用，不影响博客本身
