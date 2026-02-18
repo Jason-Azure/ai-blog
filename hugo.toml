@@ -48,7 +48,7 @@ enableEmoji = true
   comments = true
 
   [params.twikoo]
-    envId = ""  # TODO: 部署 Twikoo 后填入 Vercel URL，如 https://your-twikoo.vercel.app
+    envId = "https://ai-blog2026-ks2oa6ebd-jason-azures-projects.vercel.app"
     lang = "zh-CN"
 
 [params.assets]
