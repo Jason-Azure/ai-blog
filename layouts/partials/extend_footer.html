@@ -2,4 +2,14 @@
 {{- if .IsHome }}
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {{- end }}
+
+{{- if .IsPage }}
+<div class="post-footer-mp" style="margin: 2em 0; padding: 1.2em 1.5em; background: var(--entry); border: 1px solid var(--border); border-radius: var(--radius); display: flex; align-items: center; gap: 1.2em; flex-wrap: wrap;">
+  <img src="{{ "images/wechat-mp-qr.jpg" | absURL }}" alt="公众号二维码" loading="lazy" style="width: 100px; height: 100px; object-fit: contain; border-radius: var(--radius);">
+  <div>
+    <p style="margin: 0 0 0.3em; font-weight: 600; color: var(--primary);">关注公众号「AI-lab学习笔记」</p>
+    <p style="margin: 0; font-size: 0.9em; color: var(--secondary);">微信搜索 <strong>AI-lab学习笔记</strong> 或扫码关注，博客文章同步更新。</p>
+  </div>
+</div>
+{{- end }}
 {{- /* Footer custom content area end */ -}}
