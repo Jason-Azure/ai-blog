@@ -45,18 +45,17 @@ enableEmoji = true
     icon = ""
     iconHeight = 35
 
-  # Giscus 评论 (预留，启用后取消注释)
-  # [params.giscus]
-  #   repo = "<username>/ai-blog"
-  #   repoID = ""
-  #   category = "Announcements"
-  #   categoryID = ""
-  #   mapping = "pathname"
-  #   reactionsEnabled = "1"
-  #   emitMetadata = "0"
-  #   inputPosition = "top"
-  #   theme = "preferred_color_scheme"
-  #   lang = "zh-CN"
+  [params.giscus]
+    repo = "Jason-Azure/ai-blog"
+    repoID = "R_kgDORShbkg"
+    category = "Announcements"
+    categoryID = "DIC_kwDORShbks4C2rV5"
+    mapping = "pathname"
+    reactionsEnabled = "1"
+    emitMetadata = "0"
+    inputPosition = "top"
+    theme = "preferred_color_scheme"
+    lang = "zh-CN"
 
 [params.assets]
   disableFingerprinting = false
