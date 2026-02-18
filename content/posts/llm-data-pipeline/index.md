@@ -20,10 +20,27 @@ TocOpen: true
 
 ## 全流程概览
 
-```
-"悟空道" → UTF-8 编码 → Token ID → Embedding 向量 → Transformer → Logits → Softmax → 采样 → "："
-  文字      字节          数字       高维向量          神经网络       原始分数    概率       选择     新文字
-```
+<div style="max-width: 640px; margin: 1.5em auto; font-size: 0.95em;">
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 4px; line-height: 1.8;">
+<span style="border: 2px solid #4CAF50; border-radius: 6px; padding: 4px 10px; background: rgba(76,175,80,0.08);"><strong>"悟空道"</strong><br><span style="font-size:0.8em;color:#888;">文字</span></span>
+<span style="color:#aaa;">→</span>
+<span style="border: 2px solid #FF9800; border-radius: 6px; padding: 4px 10px; background: rgba(255,152,0,0.06);"><strong>UTF-8 编码</strong><br><span style="font-size:0.8em;color:#888;">字节</span></span>
+<span style="color:#aaa;">→</span>
+<span style="border: 2px solid #FF9800; border-radius: 6px; padding: 4px 10px; background: rgba(255,152,0,0.06);"><strong>Token ID</strong><br><span style="font-size:0.8em;color:#888;">数字</span></span>
+<span style="color:#aaa;">→</span>
+<span style="border: 2px solid #2196F3; border-radius: 6px; padding: 4px 10px; background: rgba(33,150,243,0.06);"><strong>Embedding</strong><br><span style="font-size:0.8em;color:#888;">高维向量</span></span>
+<span style="color:#aaa;">→</span>
+<span style="border: 2px solid #2196F3; border-radius: 6px; padding: 4px 10px; background: rgba(33,150,243,0.06);"><strong>Transformer</strong><br><span style="font-size:0.8em;color:#888;">神经网络</span></span>
+<span style="color:#aaa;">→</span>
+<span style="border: 2px solid #9C27B0; border-radius: 6px; padding: 4px 10px; background: rgba(156,39,176,0.06);"><strong>Softmax</strong><br><span style="font-size:0.8em;color:#888;">概率</span></span>
+<span style="color:#aaa;">→</span>
+<span style="border: 2px solid #9C27B0; border-radius: 6px; padding: 4px 10px; background: rgba(156,39,176,0.06);"><strong>采样</strong><br><span style="font-size:0.8em;color:#888;">选择</span></span>
+<span style="color:#aaa;">→</span>
+<span style="border: 2px solid #4CAF50; border-radius: 6px; padding: 4px 10px; background: rgba(76,175,80,0.08);"><strong>"："</strong><br><span style="font-size:0.8em;color:#888;">新文字</span></span>
+</div>
+
+</div>
 
 接下来我们逐步拆解每个环节。
 
@@ -68,11 +85,16 @@ TocOpen: true
 
 模型不能直接用 Token ID（一个整数）做计算，需要把它转换成一个**高维向量**（一组浮点数）。
 
-```
-Token ID: 1342 ("悟")
-    ↓ 在 Embedding 矩阵中查找第 1342 行
-向量: [-0.039, +0.010, -0.097, +0.048, ..., +0.031]  (256 维)
-```
+<div style="max-width: 520px; margin: 1em auto; font-size: 0.95em;">
+<div style="border: 2px solid #FF9800; border-radius: 8px; padding: 10px 16px; text-align: center; background: rgba(255,152,0,0.05);">
+<strong>Token ID: 1342</strong>（"悟"）
+</div>
+<div style="text-align: center; font-size: 1.2em; color: #888; margin: 4px 0;">↓ <span style="font-size: 0.75em;">在 Embedding 矩阵中查找第 1342 行</span></div>
+<div style="border: 2px solid #2196F3; border-radius: 8px; padding: 10px 16px; text-align: center; background: rgba(33,150,243,0.05);">
+<strong>向量:</strong> <code>[-0.039, +0.010, -0.097, +0.048, ..., +0.031]</code><br>
+<span style="font-size: 0.85em; color: #888;">256 维浮点数</span>
+</div>
+</div>
 
 ### Embedding 是怎么来的？
 
@@ -103,43 +125,75 @@ torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
 
 Embedding 之后的向量进入 Transformer，这是模型的核心。
 
-```
-┌─────────────────────────────┐
-│  Token Embedding + Position │  每个 token 的初始表示
-└──────────┬──────────────────┘
-           ↓
-┌─────────────────────────────┐
-│  Transformer Block × N      │  N 层叠加
-│  ┌───────────────────────┐  │
-│  │ LayerNorm              │  │
-│  │ → Self-Attention       │  │  让每个字"看到"前面的字
-│  │ → 残差连接             │  │
-│  ├───────────────────────┤  │
-│  │ LayerNorm              │  │
-│  │ → MLP (前馈网络)       │  │  "思考"和"记忆知识"
-│  │ → 残差连接             │  │
-│  └───────────────────────┘  │
-└──────────┬──────────────────┘
-           ↓
-┌─────────────────────────────┐
-│  LayerNorm → Linear         │  输出概率分布
-└─────────────────────────────┘
-```
+<div style="max-width: 520px; margin: 1.5em auto; font-size: 0.95em;">
+
+<div style="border: 2px solid #4CAF50; border-radius: 8px; padding: 12px 16px; text-align: center; background: rgba(76,175,80,0.05);">
+<strong>Token Embedding + Position Embedding</strong><br>
+<span style="font-size: 0.85em; color: #888;">每个 token 的初始向量表示</span>
+</div>
+
+<div style="text-align: center; font-size: 1.2em; color: #888; margin: 4px 0;">↓</div>
+
+<div style="border: 2px solid #2196F3; border-radius: 8px; padding: 14px 16px; background: rgba(33,150,243,0.05);">
+<strong>Transformer Block × N</strong>（N 层叠加）
+<div style="margin: 10px 0 0 0; border: 1px solid rgba(33,150,243,0.3); border-radius: 6px; padding: 10px 14px; background: rgba(33,150,243,0.03);">
+<div style="margin-bottom: 4px;"><strong>LayerNorm</strong></div>
+→ <strong>Self-Attention</strong> — 让每个字"看到"前面的字<br>
+→ 残差连接
+</div>
+<div style="margin: 8px 0 0 0; border: 1px solid rgba(33,150,243,0.3); border-radius: 6px; padding: 10px 14px; background: rgba(33,150,243,0.03);">
+<div style="margin-bottom: 4px;"><strong>LayerNorm</strong></div>
+→ <strong>MLP（前馈网络）</strong> — "思考"和"记忆知识"<br>
+→ 残差连接
+</div>
+</div>
+
+<div style="text-align: center; font-size: 1.2em; color: #888; margin: 4px 0;">↓</div>
+
+<div style="border: 2px solid #9C27B0; border-radius: 8px; padding: 12px 16px; text-align: center; background: rgba(156,39,176,0.05);">
+<strong>LayerNorm → Linear</strong><br>
+<span style="font-size: 0.85em; color: #888;">输出概率分布</span>
+</div>
+
+</div>
 
 ### Self-Attention：让模型学会"关注"
 
 Self-Attention 让模型在生成下一个字时，能够关注前面所有相关的字：
 
-```
-输入: "悟空道"
-生成下一个字时，模型的关注分布：
+**Attention 矩阵：**
 
-Attention 矩阵:
-     悟    空    道
-悟  1.00    ·     ·     ← 只能看到自己
-空  0.56  0.44    ·     ← 关注"悟"和自己
-道  0.51  0.32  0.18    ← 最关注"悟"
-```
+<div style="max-width: 400px; margin: 1em auto;">
+<table style="border-collapse: collapse; width: 100%; text-align: center; font-size: 0.95em;">
+<tr>
+<th style="padding: 8px; border: 1px solid #ddd;"></th>
+<th style="padding: 8px; border: 1px solid #ddd;">悟</th>
+<th style="padding: 8px; border: 1px solid #ddd;">空</th>
+<th style="padding: 8px; border: 1px solid #ddd;">道</th>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">悟</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(33,150,243,0.6); color: #fff;"><strong>1.00</strong></td>
+<td style="padding: 8px; border: 1px solid #ddd; color: #ccc;">·</td>
+<td style="padding: 8px; border: 1px solid #ddd; color: #ccc;">·</td>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">空</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(33,150,243,0.35);">0.56</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(33,150,243,0.25);">0.44</td>
+<td style="padding: 8px; border: 1px solid #ddd; color: #ccc;">·</td>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">道</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(33,150,243,0.32);">0.51</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(33,150,243,0.18);">0.32</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(33,150,243,0.10);">0.18</td>
+</tr>
+</table>
+<div style="font-size: 0.8em; color: #888; text-align: center; margin-top: 6px;">
+每行表示该字的注意力分布：「悟」只看自己；「道」最关注「悟」
+</div>
+</div>
 
 **关键设计：因果掩码（Causal Masking）**—— 每个位置只能看到前面的字，不能偷看后面的。这保证了模型学会"预测下一个字"而不是"抄答案"。
 
@@ -149,20 +203,45 @@ Attention 矩阵:
 
 Transformer 的输出经过线性变换，得到词表中每个字符的"原始分数"（logits）：
 
-```
-隐藏状态 (256 维) → lm_head → logits (4487 维)
-
-logits = [+2.3, -1.5, +0.8, ..., +5.1, ..., +3.7]
-          每个值对应一个候选字符
-```
+<div style="max-width: 520px; margin: 1em auto; font-size: 0.95em;">
+<div style="border: 2px solid #2196F3; border-radius: 8px; padding: 10px 16px; text-align: center; background: rgba(33,150,243,0.05);">
+<strong>隐藏状态</strong>（256 维）
+</div>
+<div style="text-align: center; font-size: 1.2em; color: #888; margin: 4px 0;">↓ <span style="font-size: 0.75em;">lm_head 线性变换</span></div>
+<div style="border: 2px solid #9C27B0; border-radius: 8px; padding: 10px 16px; text-align: center; background: rgba(156,39,176,0.05);">
+<strong>Logits</strong>（4487 维）<br>
+<code>[+2.3, -1.5, +0.8, ..., +5.1, ..., +3.7]</code><br>
+<span style="font-size: 0.85em; color: #888;">每个值对应一个候选字符</span>
+</div>
+</div>
 
 然后通过 **Softmax** 转换为概率分布：
 
-```
-logits   = [+5.1,  +3.7,  +2.3,  -1.5]
-softmax  = [0.764, 0.188, 0.047, 0.001]
-            76.4%  18.8%   4.7%   0.1%
-```
+<div style="max-width: 520px; margin: 1em auto; font-size: 0.95em;">
+<table style="border-collapse: collapse; width: 100%; text-align: center; font-size: 0.95em;">
+<tr>
+<th style="padding: 8px; border: 1px solid #ddd;"></th>
+<th style="padding: 8px; border: 1px solid #ddd;">候选 1</th>
+<th style="padding: 8px; border: 1px solid #ddd;">候选 2</th>
+<th style="padding: 8px; border: 1px solid #ddd;">候选 3</th>
+<th style="padding: 8px; border: 1px solid #ddd;">候选 4</th>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Logits</td>
+<td style="padding: 8px; border: 1px solid #ddd;">+5.1</td>
+<td style="padding: 8px; border: 1px solid #ddd;">+3.7</td>
+<td style="padding: 8px; border: 1px solid #ddd;">+2.3</td>
+<td style="padding: 8px; border: 1px solid #ddd;">-1.5</td>
+</tr>
+<tr>
+<td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Softmax</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(76,175,80,0.35);"><strong>76.4%</strong></td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(76,175,80,0.18);">18.8%</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(76,175,80,0.06);">4.7%</td>
+<td style="padding: 8px; border: 1px solid #ddd; background: rgba(76,175,80,0.02);">0.1%</td>
+</tr>
+</table>
+</div>
 
 ### Temperature：控制创造力
 
@@ -184,12 +263,26 @@ temperature = 1.5  → 非常随机（可能出现不连贯）
 
 LLM 每次只生成**一个** token，然后把它拼回输入，继续生成下一个：
 
-```
-输入 [悟, 空, 道]      → 预测 "："
-输入 [悟, 空, 道, ：]    → 预测 "师"
-输入 [悟, 空, 道, ：, 师] → 预测 "父"
-...重复 N 次...
-```
+<div style="max-width: 520px; margin: 1em auto; font-size: 0.95em;">
+
+<div style="border: 1px solid #ddd; border-radius: 6px; padding: 10px 16px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+<span>输入 <code>[悟, 空, 道]</code></span>
+<span style="color: #4CAF50; font-weight: bold;">→ 预测 "："</span>
+</div>
+
+<div style="border: 1px solid #ddd; border-radius: 6px; padding: 10px 16px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+<span>输入 <code>[悟, 空, 道, ：]</code></span>
+<span style="color: #4CAF50; font-weight: bold;">→ 预测 "师"</span>
+</div>
+
+<div style="border: 1px solid #ddd; border-radius: 6px; padding: 10px 16px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+<span>输入 <code>[悟, 空, 道, ：, 师]</code></span>
+<span style="color: #4CAF50; font-weight: bold;">→ 预测 "父"</span>
+</div>
+
+<div style="text-align: center; color: #888; font-size: 0.9em;">↻ 重复 N 次…</div>
+
+</div>
 
 这就是为什么 LLM 的输出是逐字"蹦出来"的 —— 它真的是一个字一个字生成的。
 
