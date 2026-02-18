@@ -14,11 +14,11 @@
 {{- /* ====== 2. AI Framework Panorama ====== */ -}}
 <section class="ai-framework">
   <h2>企业 AI 应用框架全景</h2>
-  <div class="ai-framework-flow">
-    {{- /* Left column: User Input */ -}}
-    <div class="ai-col">
-      <h3>用户输入</h3>
-      <div class="ai-col-items">
+  <div class="ai-arch">
+    {{- /* Left: User Input */ -}}
+    <div class="ai-side">
+      <div class="ai-side-label">用户输入</div>
+      <div class="ai-side-items">
         <span>自然语言提问</span>
         <span>文档 / 数据</span>
         <span>指令 / 任务</span>
@@ -27,31 +27,67 @@
 
     <div class="ai-arrow">→</div>
 
-    {{- /* Center column: AI Core System */ -}}
-    <div class="ai-col ai-core">
-      <h3>AI 核心系统</h3>
-      <div class="ai-pills">
-        <span class="ai-pill" data-tooltip="大语言模型 — 理解和生成自然语言的核心引擎">LLM</span>
-        <span class="ai-pill" data-tooltip="智能代理 — 自主规划、调用工具完成复杂目标">Agent</span>
-        <span class="ai-pill" data-tooltip="检索增强生成 — 让 AI 查询外部知识库">RAG</span>
-        <span class="ai-pill" data-tooltip="模型上下文协议 — AI 与外部工具的连接标准">MCP</span>
-        <span class="ai-pill" data-tooltip="技能插件 — 赋予 AI 专业能力的可复用模块">Skills</span>
-        <span class="ai-pill" data-tooltip="提示词工程 — 精心设计指令引导高质量输出">Prompt Engineering</span>
-        <span class="ai-pill" data-tooltip="微调 — 用领域数据定制模型">Fine-tuning</span>
-        <span class="ai-pill" data-tooltip="向量嵌入 — 文本转数字向量，理解语义">Embedding</span>
-        <span class="ai-pill" data-tooltip="向量数据库 — 语义向量存储与检索">Vector DB</span>
-        <span class="ai-pill" data-tooltip="分词单元 — LLM 处理文本的最小单位">Token</span>
-        <span class="ai-pill" data-tooltip="思维链推理 — 逐步推理提高准确性">CoT</span>
-        <span class="ai-pill" data-tooltip="变换器 — 现代 LLM 的核心神经网络架构">Transformer</span>
+    {{- /* Center: Agent (outermost coordinator) */ -}}
+    <div class="ai-agent">
+      <div class="ai-agent-header">
+        <span class="ai-pill agent-pill" data-tooltip="智能代理 — 接收用户输入，自主规划、调度工具完成复杂目标">Agent</span>
+        <span class="ai-role-label">智能调度中心</span>
+      </div>
+
+      {{- /* Inside Agent: LLM (the brain) */ -}}
+      <div class="ai-llm">
+        <div class="ai-llm-header">
+          <span class="ai-pill llm-pill" data-tooltip="大语言模型 — 理解和生成自然语言的核心引擎">LLM</span>
+          <span class="ai-role-label">推理大脑</span>
+        </div>
+        <div class="ai-llm-body">
+          <div class="ai-llm-section">
+            <span class="ai-section-label">内部机制</span>
+            <div class="ai-pills-row">
+              <span class="ai-pill sm" data-tooltip="分词单元 — LLM 处理文本的最小单位">Token</span>
+              <span class="ai-pill sm" data-tooltip="向量嵌入 — 文本转数字向量，理解语义">Embedding</span>
+              <span class="ai-pill sm" data-tooltip="变换器 — 现代 LLM 的核心神经网络架构">Transformer</span>
+              <span class="ai-pill sm" data-tooltip="思维链推理 — 逐步推理提高准确性">CoT</span>
+            </div>
+          </div>
+          <div class="ai-llm-section">
+            <span class="ai-section-label">优化技术</span>
+            <div class="ai-pills-row">
+              <span class="ai-pill sm" data-tooltip="提示词工程 — 精心设计指令引导高质量输出">Prompt Eng.</span>
+              <span class="ai-pill sm" data-tooltip="微调 — 用领域数据定制模型">Fine-tuning</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{- /* Inside Agent: Tool bar (RAG / MCP / Skills) */ -}}
+      <div class="ai-tools-label">按需调度工具</div>
+      <div class="ai-tools">
+        <div class="ai-tool-card">
+          <span class="ai-pill tool-pill" data-tooltip="检索增强生成 — 让 AI 查询外部知识库后再回答">RAG</span>
+          <span class="ai-tool-desc">外挂知识库</span>
+          <div class="ai-tool-sub">
+            <span class="ai-pill xs" data-tooltip="向量嵌入 — 文本转数字向量，理解语义">Embedding</span>
+            <span class="ai-pill xs" data-tooltip="向量数据库 — 语义向量存储与检索">Vector DB</span>
+          </div>
+        </div>
+        <div class="ai-tool-card">
+          <span class="ai-pill tool-pill" data-tooltip="模型上下文协议 — AI 与外部工具/API 的标准化连接接口">MCP</span>
+          <span class="ai-tool-desc">工具接口</span>
+        </div>
+        <div class="ai-tool-card">
+          <span class="ai-pill tool-pill" data-tooltip="技能插件 — 赋予 AI 专业能力的可复用模块">Skills</span>
+          <span class="ai-tool-desc">技能插件</span>
+        </div>
       </div>
     </div>
 
     <div class="ai-arrow">→</div>
 
-    {{- /* Right column: AI Output */ -}}
-    <div class="ai-col">
-      <h3>AI 输出</h3>
-      <div class="ai-col-items">
+    {{- /* Right: AI Output */ -}}
+    <div class="ai-side">
+      <div class="ai-side-label">AI 输出</div>
+      <div class="ai-side-items">
         <span>智能回答</span>
         <span>内容生成</span>
         <span>自动化执行</span>

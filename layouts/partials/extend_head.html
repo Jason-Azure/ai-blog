@@ -1,7 +1,7 @@
 {{- /* Head custom content area start */ -}}
 {{- if .IsHome }}
 <style>
-/* ========== AI Section Custom Properties ========== */
+/* ========== Custom Properties ========== */
 :root {
   --pill-glow: rgba(99, 102, 241, 0.35);
   --pill-grad-start: #6366f1;
@@ -21,37 +21,37 @@
   inherits: false;
 }
 
-/* ========== AI Framework Panorama — Glassmorphism ========== */
+/* ========== Framework Container ========== */
 .ai-framework {
   margin: 2em 0;
-  padding: 2em;
+  padding: 1.5em;
   text-align: center;
   background: linear-gradient(135deg,
-    rgba(99, 102, 241, 0.07),
-    rgba(139, 92, 246, 0.04),
-    rgba(236, 72, 153, 0.04));
+    rgba(99, 102, 241, 0.06),
+    rgba(139, 92, 246, 0.03),
+    rgba(236, 72, 153, 0.03));
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 16px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06),
-              inset 0 1px 0 rgba(255, 255, 255, 0.12);
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 [data-theme="dark"] .ai-framework {
   background: linear-gradient(135deg,
     rgba(99, 102, 241, 0.1),
-    rgba(139, 92, 246, 0.06),
-    rgba(236, 72, 153, 0.04));
+    rgba(139, 92, 246, 0.05),
+    rgba(236, 72, 153, 0.03));
   border-color: rgba(255, 255, 255, 0.06);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
               inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* Title — Animated Gradient Text */
+/* Title */
 .ai-framework h2 {
   display: inline-block;
-  margin-bottom: 1.2em;
-  font-size: 1.4em;
+  margin-bottom: 1em;
+  font-size: 1.3em;
   font-weight: 700;
   background: linear-gradient(90deg,
     var(--pill-grad-start), var(--pill-grad-end),
@@ -68,136 +68,84 @@
   100% { background-position: 0% 50%; }
 }
 
-/* Flow Layout */
-.ai-framework-flow {
+/* ========== Architecture Layout ========== */
+.ai-arch {
   display: flex;
   align-items: stretch;
   gap: 0;
 }
 
-/* Columns — Frosted Glass Cards */
-.ai-col {
-  flex: 1;
+/* Side panels (Input / Output) */
+.ai-side {
+  flex: 0 0 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.2em;
-  background: rgba(255, 255, 255, 0.45);
+  padding: 1em 0.6em;
+  background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05),
-              inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
-[data-theme="dark"] .ai-col {
+[data-theme="dark"] .ai-side {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2),
-              inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
-.ai-col:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-/* AI Core — Rotating Gradient Border */
-.ai-col.ai-core {
-  flex: 2;
-  position: relative;
-  border: none;
-  background: transparent;
-  isolation: isolate;
-}
-.ai-col.ai-core::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 14px;
-  background: conic-gradient(
-    from var(--border-angle, 0deg),
-    var(--pill-grad-start),
-    var(--pill-grad-end),
-    var(--pill-accent),
-    var(--pill-grad-start));
-  z-index: -2;
-  animation: rotateBorder 4s linear infinite;
-}
-.ai-col.ai-core::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border-radius: 10px;
-  background: var(--code-bg);
-  z-index: -1;
-}
-@keyframes rotateBorder {
-  to { --border-angle: 360deg; }
-}
-
-/* Column Headers — Chip Style */
-.ai-col h3 {
-  display: inline-block;
-  margin-bottom: 1em;
-  padding: 0.3em 1em;
-  font-size: 0.95em;
+.ai-side-label {
+  font-size: 0.85em;
   font-weight: 600;
-  border-radius: 999px;
+  color: var(--primary);
+  margin-bottom: 0.8em;
+  padding: 0.25em 0.7em;
   background: linear-gradient(135deg, var(--pill-grad-start), var(--pill-grad-end));
   color: #fff;
-  box-shadow: 0 2px 8px var(--pill-glow);
+  border-radius: 999px;
 }
-.ai-col.ai-core h3 {
-  background: linear-gradient(135deg, var(--pill-accent), #f43f5e);
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
-}
-
-/* Side Column Items — Floating */
-.ai-col-items {
+.ai-side-items {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 0.4em;
 }
-.ai-col-items span {
-  padding: 0.45em 0.8em;
+.ai-side-items span {
+  padding: 0.35em 0.5em;
   background: rgba(99, 102, 241, 0.08);
-  border: 1px solid rgba(99, 102, 241, 0.12);
-  border-radius: 8px;
-  font-size: 0.9em;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-radius: 6px;
+  font-size: 0.75em;
   font-weight: 500;
   color: var(--primary);
   animation: gentleFloat 3s ease-in-out infinite;
 }
-[data-theme="dark"] .ai-col-items span {
+[data-theme="dark"] .ai-side-items span {
   background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.12);
 }
-.ai-col-items span:nth-child(2) { animation-delay: 0.5s; }
-.ai-col-items span:nth-child(3) { animation-delay: 1s; }
+.ai-side-items span:nth-child(2) { animation-delay: 0.5s; }
+.ai-side-items span:nth-child(3) { animation-delay: 1s; }
 @keyframes gentleFloat {
   0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
+  50%      { transform: translateY(-3px); }
 }
 
-/* Arrows — Animated Data Flow */
+/* Arrows */
 .ai-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.6em;
+  padding: 0 0.4em;
   position: relative;
   font-size: 0;
   color: transparent;
-  width: 60px;
+  width: 44px;
   min-height: 40px;
   overflow: visible;
 }
 .ai-arrow::before {
   content: "";
-  width: 40px;
+  width: 28px;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--pill-grad-start));
   border-radius: 1px;
@@ -205,57 +153,220 @@
 .ai-arrow::after {
   content: "";
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--pill-grad-end);
-  box-shadow: 0 0 6px var(--pill-glow), 0 0 12px var(--pill-glow);
+  box-shadow: 0 0 6px var(--pill-glow);
   animation: flowDot 2s ease-in-out infinite;
 }
 @keyframes flowDot {
   0%   { left: 4px; opacity: 0; }
   15%  { opacity: 1; }
   85%  { opacity: 1; }
-  100% { left: calc(100% - 12px); opacity: 0; }
+  100% { left: calc(100% - 10px); opacity: 0; }
 }
 
-/* Pills — Gradient + Shimmer + Glow */
-.ai-pills {
+/* ========== Agent Container (Outermost Coordinator) ========== */
+.ai-agent {
+  flex: 1;
+  position: relative;
+  border: none;
+  border-radius: 14px;
+  padding: 1em;
+  isolation: isolate;
+}
+/* Rotating gradient border */
+.ai-agent::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    var(--pill-grad-start),
+    var(--pill-grad-end),
+    var(--pill-accent),
+    var(--pill-grad-start));
+  z-index: -2;
+  animation: rotateBorder 6s linear infinite;
+}
+.ai-agent::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 12px;
+  background: var(--entry);
+  z-index: -1;
+}
+[data-theme="dark"] .ai-agent::after {
+  background: var(--theme);
+}
+@keyframes rotateBorder {
+  to { --border-angle: 360deg; }
+}
+
+/* Agent header */
+.ai-agent-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin-bottom: 0.8em;
+}
+.agent-pill {
+  font-size: 1em !important;
+  padding: 0.3em 1em !important;
+  background: linear-gradient(135deg, var(--pill-accent), #f43f5e) !important;
+  box-shadow: 0 2px 12px rgba(236, 72, 153, 0.4) !important;
+}
+.ai-role-label {
+  font-size: 0.8em;
+  color: var(--secondary);
+  font-weight: 400;
+}
+
+/* ========== LLM Box (Inside Agent) ========== */
+.ai-llm {
+  background: rgba(99, 102, 241, 0.05);
+  border: 1.5px solid rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+  padding: 0.8em;
+  margin-bottom: 0.8em;
+}
+[data-theme="dark"] .ai-llm {
+  background: rgba(139, 92, 246, 0.08);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+.ai-llm-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin-bottom: 0.6em;
+}
+.llm-pill {
+  font-size: 0.95em !important;
+  padding: 0.25em 0.9em !important;
+}
+.ai-llm-body {
+  display: flex;
+  gap: 0.8em;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ai-llm-section {
+  flex: 1;
+  min-width: 140px;
+}
+.ai-section-label {
+  display: block;
+  font-size: 0.7em;
+  color: var(--secondary);
+  margin-bottom: 0.4em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.ai-pills-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5em;
+  gap: 0.35em;
   justify-content: center;
 }
+
+/* ========== Tool Bar (Inside Agent, below LLM) ========== */
+.ai-tools-label {
+  font-size: 0.7em;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5em;
+}
+.ai-tools {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.ai-tool-card {
+  flex: 1;
+  min-width: 90px;
+  max-width: 160px;
+  padding: 0.6em;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+[data-theme="dark"] .ai-tool-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(139, 92, 246, 0.15);
+}
+.ai-tool-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.tool-pill {
+  font-size: 0.8em !important;
+  padding: 0.2em 0.7em !important;
+}
+.ai-tool-desc {
+  display: block;
+  font-size: 0.68em;
+  color: var(--secondary);
+  margin-top: 0.3em;
+}
+.ai-tool-sub {
+  display: flex;
+  gap: 0.25em;
+  justify-content: center;
+  margin-top: 0.4em;
+  flex-wrap: wrap;
+}
+
+/* ========== Pill Variants ========== */
 .ai-pill {
   position: relative;
   display: inline-block;
-  padding: 0.4em 0.85em;
+  padding: 0.35em 0.75em;
   background: linear-gradient(135deg, var(--pill-grad-start), var(--pill-grad-end));
   color: #fff;
   border-radius: 999px;
-  font-size: 0.85em;
+  font-size: 0.8em;
   font-weight: 600;
   cursor: default;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 2px 8px var(--pill-glow);
+  box-shadow: 0 2px 6px var(--pill-glow);
 }
 .ai-pill:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 4px 16px var(--pill-glow), 0 0 20px var(--pill-glow);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 14px var(--pill-glow), 0 0 16px var(--pill-glow);
+}
+.ai-pill.sm {
+  font-size: 0.72em;
+  padding: 0.25em 0.6em;
+  font-weight: 500;
+}
+.ai-pill.xs {
+  font-size: 0.65em;
+  padding: 0.2em 0.5em;
+  font-weight: 500;
+  background: linear-gradient(135deg, rgba(99,102,241,0.7), rgba(139,92,246,0.7));
 }
 
-/* Tooltip (::before) */
+/* Tooltip */
 .ai-pill[data-tooltip]::before {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.5em 0.8em;
+  padding: 0.45em 0.7em;
   background: rgba(30, 30, 30, 0.92);
   color: #fff;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 0.78em;
   font-weight: 400;
   white-space: nowrap;
@@ -272,7 +383,7 @@
   opacity: 1;
 }
 
-/* Shimmer Sweep (::after) */
+/* Shimmer */
 .ai-pill::after {
   content: "";
   position: absolute;
@@ -281,28 +392,15 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg,
-    transparent,
-    rgba(255, 255, 255, 0.22),
-    transparent);
-  animation: shimmer 3s ease-in-out infinite;
+    transparent, rgba(255, 255, 255, 0.22), transparent);
+  animation: shimmer 3.5s ease-in-out infinite;
   pointer-events: none;
 }
 @keyframes shimmer {
   0%   { left: -100%; }
-  50%  { left: 100%; }
+  40%  { left: 100%; }
   100% { left: 100%; }
 }
-.ai-pill:nth-child(2)::after  { animation-delay: 0.25s; }
-.ai-pill:nth-child(3)::after  { animation-delay: 0.5s; }
-.ai-pill:nth-child(4)::after  { animation-delay: 0.75s; }
-.ai-pill:nth-child(5)::after  { animation-delay: 1.0s; }
-.ai-pill:nth-child(6)::after  { animation-delay: 1.25s; }
-.ai-pill:nth-child(7)::after  { animation-delay: 1.5s; }
-.ai-pill:nth-child(8)::after  { animation-delay: 1.75s; }
-.ai-pill:nth-child(9)::after  { animation-delay: 2.0s; }
-.ai-pill:nth-child(10)::after { animation-delay: 2.25s; }
-.ai-pill:nth-child(11)::after { animation-delay: 2.5s; }
-.ai-pill:nth-child(12)::after { animation-delay: 2.75s; }
 
 /* ========== Stats Bar ========== */
 .stats-bar {
@@ -371,27 +469,42 @@
   .ai-pill::after,
   .ai-arrow::after,
   .ai-framework h2,
-  .ai-col-items span,
-  .ai-col.ai-core::before {
+  .ai-side-items span,
+  .ai-agent::before {
     animation: none !important;
   }
 }
 
 /* ========== Mobile Responsive ========== */
 @media (max-width: 768px) {
-  .ai-framework-flow {
+  .ai-arch {
     flex-direction: column;
     gap: 0;
   }
+  .ai-side {
+    flex: none;
+    flex-direction: row;
+    padding: 0.8em;
+    gap: 0.6em;
+  }
+  .ai-side-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+  .ai-side-items {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3em;
+  }
   .ai-arrow {
     width: auto;
-    height: 40px;
-    min-height: 40px;
-    padding: 0.3em 0;
+    height: 32px;
+    min-height: 32px;
+    padding: 0.2em 0;
   }
   .ai-arrow::before {
     width: 2px;
-    height: 28px;
+    height: 22px;
     background: linear-gradient(180deg, transparent, var(--pill-grad-start));
   }
   .ai-arrow::after {
@@ -403,15 +516,25 @@
     0%   { top: 0; opacity: 0; }
     15%  { opacity: 1; }
     85%  { opacity: 1; }
-    100% { top: calc(100% - 8px); opacity: 0; }
+    100% { top: calc(100% - 7px); opacity: 0; }
   }
-  .ai-col {
-    width: 100%;
+  .ai-agent {
+    padding: 0.8em;
+  }
+  .ai-llm-body {
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  .ai-tools {
+    flex-direction: column;
+  }
+  .ai-tool-card {
+    max-width: none;
   }
   .ai-pill[data-tooltip]::before {
     white-space: normal;
-    min-width: 180px;
-    max-width: 240px;
+    min-width: 160px;
+    max-width: 220px;
     text-align: center;
   }
   .wechat-card {
