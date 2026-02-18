@@ -69,7 +69,7 @@
 
 {{- /* ====== 4. WeChat QR Card ====== */ -}}
 <section class="wechat-card">
-  <img src="{{ "images/wechat-group-qr.png" | absURL }}" alt="微信群二维码" loading="lazy">
+  <img src="{{ "images/wechat-group-qr.jpg" | absURL }}" alt="微信群二维码" loading="lazy">
   <div class="wechat-card-info">
     <h3>加入 AI 学习交流群</h3>
     <p>扫描二维码加入微信群，与更多 AI 爱好者一起交流学习。<br>
@@ -77,11 +77,11 @@
   </div>
 </section>
 
-{{- /* ====== 5. Guestbook (Giscus) ====== */ -}}
-{{- if site.Params.giscus }}
+{{- /* ====== 5. Guestbook (Twikoo) ====== */ -}}
+{{- if site.Params.twikoo }}
 <section class="guestbook-section">
   <h2>留言板</h2>
-  <p class="guestbook-desc">欢迎留言交流！需要 GitHub 账号登录。</p>
+  <p class="guestbook-desc">欢迎留言交流！填写昵称即可，无需登录。</p>
   {{- partial "comments.html" . }}
 </section>
 {{- end }}

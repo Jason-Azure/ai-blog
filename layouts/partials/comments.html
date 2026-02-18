@@ -1,22 +1,16 @@
-{{- /* Giscus 评论系统 */ -}}
-{{- /* 启用方法：在 hugo.toml 中取消 [params.giscus] 的注释并填入正确的 repo 信息 */ -}}
-{{- if site.Params.giscus }}
-{{- if site.Params.giscus.repo }}
-<div id="comments" style="margin-top: 2em;">
-  <script src="https://giscus.app/client.js"
-    data-repo="{{ site.Params.giscus.repo }}"
-    data-repo-id="{{ site.Params.giscus.repoID }}"
-    data-category="{{ site.Params.giscus.category | default "Announcements" }}"
-    data-category-id="{{ site.Params.giscus.categoryID }}"
-    data-mapping="{{ site.Params.giscus.mapping | default "pathname" }}"
-    data-reactions-enabled="{{ site.Params.giscus.reactionsEnabled | default "1" }}"
-    data-emit-metadata="{{ site.Params.giscus.emitMetadata | default "0" }}"
-    data-input-position="{{ site.Params.giscus.inputPosition | default "top" }}"
-    data-theme="{{ site.Params.giscus.theme | default "preferred_color_scheme" }}"
-    data-lang="{{ site.Params.giscus.lang | default "zh-CN" }}"
-    crossorigin="anonymous"
-    async>
-  </script>
-</div>
+{{- /* Twikoo 评论系统 — 支持游客留言（昵称+邮箱，无需登录） */ -}}
+{{- if site.Params.twikoo }}
+{{- if site.Params.twikoo.envId }}
+<div id="tcomment"></div>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
+<script>
+twikoo.init({
+  envId: '{{ site.Params.twikoo.envId }}',
+  el: '#tcomment',
+  lang: '{{ site.Params.twikoo.lang | default "zh-CN" }}'
+});
+</script>
+{{- else }}
+<p style="color:var(--secondary);text-align:center;padding:1em;">留言系统配置中，请稍后再来...</p>
 {{- end }}
 {{- end }}
