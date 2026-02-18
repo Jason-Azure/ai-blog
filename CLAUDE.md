@@ -293,6 +293,65 @@ TocOpen: true        # 目录默认展开
 - `title` (可选): 标题栏文字，默认"在线演示"
 - `height` (可选): iframe 高度像素，默认 500
 
+## 博客管理方式
+
+### 方式 1：SSH 到 VM + Claude Code
+
+```bash
+ssh azureuser@20.10.135.83
+work    # 进入 tmux 会话
+cc      # 启动 Claude Code，可以对话式管理博客
+```
+
+适合：写新文章、改模板、调配置、调样式等复杂操作。
+
+### 方式 2：GitHub 网页直接编辑
+
+打开 https://github.com/Jason-Azure/ai-blog ，在浏览器中操作：
+
+- **写新文章:** `content/posts/` → Add file → Create new file → 输入 `新目录名/index.md` → 粘贴 Markdown → Commit
+- **编辑文章:** 点开 `.md` 文件 → 铅笔图标 → 在线编辑 → Commit
+- **上传图片:** 进入文章目录 → Add file → Upload files
+
+Commit 后 GitHub Actions 自动构建部署，约 30 秒上线。
+
+适合：简单改文字、写新文章、不需要预览的快速操作。
+
+### 方式 3：本地电脑 Git + Hugo（推荐日常使用）
+
+```powershell
+# 首次克隆（只需一次）
+git clone --recurse-submodules https://github.com/Jason-Azure/ai-blog.git
+cd ai-blog
+
+# 安装 Hugo（Windows 用 winget 或 scoop）
+winget install Hugo.Hugo.Extended
+
+# 写文章
+mkdir content\posts\my-new-post
+# 用 VS Code 编辑 content\posts\my-new-post\index.md
+
+# 本地预览
+hugo server
+# 浏览器打开 http://localhost:1313/ai-blog/
+
+# 满意后发布
+git add .
+git commit -m "Add post: 文章标题"
+git push
+```
+
+适合：本地实时预览、批量操作、用熟悉的编辑器写作。
+
+### 方式选择建议
+
+| 场景 | 推荐方式 |
+|------|---------|
+| 改模板/样式/配置 | 方式 1（SSH + Claude Code） |
+| 快速改几个字 | 方式 2（GitHub 网页） |
+| 日常写长文章 | 方式 3（本地 Git + Hugo） |
+| 上传图片/二维码 | 方式 2 或 3 |
+
 ## 常用操作
 
 ### 本地预览
