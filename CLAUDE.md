@@ -9,6 +9,7 @@
 - **部署方式:** push 到 main → GitHub Actions 自动构建 → GitHub Pages
 - **语言:** 中文 (zh-CN)
 - **主题模式:** 自动切换明/暗色 (defaultTheme = "auto")
+- **微信公众号:** AI-lab学习笔记（个人订阅号）
 
 ## 架构全景
 
@@ -65,31 +66,35 @@
 │   ├── partials/
 │   │   ├── comments.html              # Twikoo 评论系统集成
 │   │   ├── extend_head.html           # 首页专属 CSS（暗色模式+响应式）
-│   │   └── extend_footer.html         # 不蒜子统计脚本（仅首页）
+│   │   └── extend_footer.html         # 不蒜子统计 + 文章页公众号引导
 │   └── shortcodes/
 │       ├── bilibili.html              # B 站视频嵌入
 │       ├── video.html                 # 通用视频 (iframe / HTML5)
 │       ├── wechat-qr.html            # 微信二维码卡片
 │       └── sandbox.html               # 交互式代码沙盒 iframe
 ├── static/images/
-│   └── wechat-group-qr.jpg           # 微信群二维码
+│   ├── wechat-group-qr.jpg           # 微信群二维码
+│   ├── wechat-mp-qr.jpg              # 公众号二维码
+│   └── gzh.jpg                        # 公众号二维码（原始上传）
 └── themes/PaperMod/                   # 主题 (git submodule，勿直接修改)
 ```
 
 ## 首页区块结构 (layouts/index.html)
 
-首页为自定义着陆页，包含 6 个区块：
+首页为自定义着陆页，包含 7 个区块：
 
 ```
 ┌─────────────────────────────────────────┐
 │  1. 欢迎语 (homeInfoParams)              │  复用 PaperMod home_info.html
 ├─────────────────────────────────────────┤
-│  2. 企业 AI 框架全景图                    │  三列流程: 输入→核心系统→输出
+│  1.5 开篇语「压缩即智能」                 │  关于 AI 本质的哲学思考
+├─────────────────────────────────────────┤
+│  2. 企业 AI 框架全景图                    │  嵌套层次: Agent→LLM→Tools
 │     12 个术语 pill，悬停显示 CSS tooltip   │  纯 CSS，零 JS
 ├─────────────────────────────────────────┤
 │  3. 统计栏                               │  日期 + 不蒜子 PV/UV
 ├─────────────────────────────────────────┤
-│  4. 微信群二维码卡片                      │  左图右文布局
+│  4. 微信卡片（群 + 公众号）               │  两张左图右文卡片
 ├─────────────────────────────────────────┤
 │  5. 留言板 (Twikoo)                      │  游客可留言，无需登录
 ├─────────────────────────────────────────┤
@@ -417,6 +422,103 @@ Deploy:
     部署到 GitHub Pages 环境
     ↓
 ~30 秒后上线
+```
+
+## 微信公众号（AI-lab学习笔记）
+
+### 基本信息
+
+- **公众号名称:** AI-lab学习笔记
+- **类型:** 个人订阅号
+- **管理后台:** [mp.weixin.qq.com](https://mp.weixin.qq.com)（微信扫码登录）
+- **定位:** 博客文章同步发布 + 微信端阅读
+
+### 公众号文章存放
+
+博客文章转换后的公众号格式 HTML 保存在 VM 本地：
+
+```
+~/wechat-articles/
+├── 00-opening-essay.html          # 开篇语「压缩即智能」
+├── 01-hello-world.html            # 博客上线公告
+├── 02-llm-data-pipeline.html      # LLM 数据处理全流程详解
+└── 03-llm-pipeline-visual.html    # LLM 全流程可视化
+```
+
+**格式特点：**
+- 所有样式内联（微信编辑器会剥离 `<style>` 标签）
+- 无 JavaScript
+- 代码块用 `<pre><code>` + 内联样式
+- 表格每个单元格有内联样式
+- 每篇文末有博客地址和公众号名称
+
+### 发布文章到公众号
+
+#### 1. 下载文章到本地
+
+```powershell
+# 在 Windows PowerShell 执行
+scp azureuser@20.10.135.83:~/wechat-articles/*.html C:\Users\你的用户名\Desktop\
+```
+
+#### 2. 复制内容
+
+1. 双击 HTML 文件，在浏览器中打开
+2. `Ctrl+A` 全选 → `Ctrl+C` 复制
+
+#### 3. 发布
+
+1. 登录 [mp.weixin.qq.com](https://mp.weixin.qq.com)
+2. **内容与互动 → 草稿箱 → 新建图文**
+3. 填写标题
+4. 正文区域 `Ctrl+V` 粘贴
+5. 上传封面图（建议 900×383 像素）
+6. 填写摘要
+7. **预览** → 手机微信确认效果
+8. **发表**
+
+### 写新公众号文章
+
+当博客有新文章时，同步到公众号的流程：
+
+```bash
+# 1. SSH 到 VM
+ssh azureuser@20.10.135.83
+work && cc
+
+# 2. 让 Claude Code 生成公众号格式
+# 对话："请把 content/posts/新文章目录/index.md 转换为公众号格式"
+# 文件会保存到 ~/wechat-articles/
+
+# 3. 下载并发布（同上）
+```
+
+### 博客与公众号的联动
+
+| 位置 | 引导方式 |
+|------|---------|
+| 博客首页 | 公众号二维码卡片（微信群卡片下方） |
+| 每篇文章底部 | 公众号关注引导栏（左二维码+右文字） |
+| 公众号文章底部 | 博客地址链接 |
+
+### 公众号限制
+
+- 个人订阅号每天最多发 **1 篇** 文章
+- 文章发布后 **不可修改内容**（只能删除重发），务必先预览
+- **无开放 API**，只能通过网页端手动发布
+- 图片需上传到公众号素材库，不支持外链图片
+
+### 更新公众号二维码
+
+```bash
+# 从 Windows 电脑传图到 VM
+scp 新二维码.jpg azureuser@20.10.135.83:~/ai-blog/static/images/wechat-mp-qr.jpg
+
+# 在 VM 上提交
+cd ~/ai-blog
+git add static/images/wechat-mp-qr.jpg
+git commit -m "Update WeChat MP QR code"
+git push
 ```
 
 ## 待优化功能
