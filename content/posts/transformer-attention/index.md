@@ -77,7 +77,7 @@ LLM 把一个词变成一串数字（向量），你可以想象成一个雷达�
 
 <div style="text-align: center; font-weight: bold; margin-bottom: 8px;">皇室感 ↑</div>
 
-<div style="margin-left: 42%; font-size: 0.9em; line-height: 2;">
+<div style="text-align: center; font-size: 0.9em; line-height: 2;">
 0.9 — "国王"<br>
 0.8 — "王后"<br>
 0.1 — "汽车"
@@ -85,10 +85,12 @@ LLM 把一个词变成一串数字（向量），你可以想象成一个雷达�
 
 <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.9em; color: #888;">
 <span>← 女</span>
-<span><strong>性别感 →</strong></span>
+<span>男 →</span>
 </div>
 
-<div style="margin-top: 12px; font-size: 0.9em; color: #666; line-height: 1.8;">
+<div style="text-align: center; margin-top: 4px; font-size: 0.9em; color: #888;">性别感</div>
+
+<div style="margin-top: 12px; font-size: 0.9em; color: #666; line-height: 1.8; text-align: center;">
 "国王" ≈ (皇室感=0.9, 男性=0.8)<br>
 "王后" ≈ (皇室感=0.8, 女性=0.7)<br>
 "汽车" ≈ (皇室感=0.1, 中性=0.0)
