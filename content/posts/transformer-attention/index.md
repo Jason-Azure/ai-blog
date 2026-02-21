@@ -256,13 +256,14 @@ V = x × Wv    ← 再一次，又得到一串不同的数字
 
 原始的 x 里混着这个词的所有信息。乘以不同的矩阵，就像戴上不同的滤镜，从同一张照片里提取不同的侧面：
 
-```
-同一个 x（原材料）
-   │
-   ├── × Wq → Q:  从 x 中提取"发出信号"的侧面
-   ├── × Wk → K:  从 x 中提取"接收匹配"的侧面
-   └── × Wv → V:  从 x 中提取"内容传递"的侧面
-```
+<div style="max-width: 480px; margin: 1em auto; font-size: 0.93em;">
+<div style="text-align: center; margin-bottom: 6px; font-weight: bold;">同一个 x（原材料）</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="border: 2px solid #FF9800; border-radius: 6px; padding: 8px 14px; background: rgba(255,152,0,0.05);">× Wq → <strong>Q</strong>：从 x 中提取"发出信号"的侧面</div>
+<div style="border: 2px solid #2196F3; border-radius: 6px; padding: 8px 14px; background: rgba(33,150,243,0.05);">× Wk → <strong>K</strong>：从 x 中提取"接收匹配"的侧面</div>
+<div style="border: 2px solid #9C27B0; border-radius: 6px; padding: 8px 14px; background: rgba(156,39,176,0.05);">× Wv → <strong>V</strong>：从 x 中提取"内容传递"的侧面</div>
+</div>
+</div>
 
 **关键：三个矩阵的具体数值不是人类写的，是训练出来的。** 人类只决定了"用三个矩阵做变换"这个结构，至于每个矩阵具体做什么样的变换——那是模型在几十亿次训练中自己摸索出来的。
 
@@ -391,14 +392,19 @@ output = 0.30 × V_悟 + 0.38 × V_空 + 0.32 × V_道
                     Q × Kᵀ
 Attention(Q,K,V) = softmax( ─────── ) × V
                       √d
-
-┌─────────┐     ┌──────────┐     ┌───────────┐     ┌──────────┐
-│ Q 和 K   │ →  │  除以 √d  │ →  │  Softmax   │ →  │ 加权求和 V│
-│ 做点积   │     │  缩放     │     │  归一化    │     │  得到输出 │
-│(算相似度)│     │(防止爆炸) │     │(变成权重)  │     │          │
-└─────────┘     └──────────┘     └───────────┘     └──────────┘
-  Dot-Product      Scale          Normalize          Aggregate
 ```
+
+<div style="max-width: 620px; margin: 1em auto; font-size: 0.93em;">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 4px; line-height: 1.8;">
+<span style="border: 2px solid #FF9800; border-radius: 6px; padding: 6px 12px; background: rgba(255,152,0,0.05); text-align: center;"><strong>Q 和 K 做点积</strong><br><span style="font-size:0.8em; color:#888;">算相似度</span></span>
+<span style="color:#aaa; font-size:1.2em;">→</span>
+<span style="border: 2px solid #FF9800; border-radius: 6px; padding: 6px 12px; background: rgba(255,152,0,0.05); text-align: center;"><strong>除以 √d 缩放</strong><br><span style="font-size:0.8em; color:#888;">防止爆炸</span></span>
+<span style="color:#aaa; font-size:1.2em;">→</span>
+<span style="border: 2px solid #2196F3; border-radius: 6px; padding: 6px 12px; background: rgba(33,150,243,0.05); text-align: center;"><strong>Softmax 归一化</strong><br><span style="font-size:0.8em; color:#888;">变成权重</span></span>
+<span style="color:#aaa; font-size:1.2em;">→</span>
+<span style="border: 2px solid #9C27B0; border-radius: 6px; padding: 6px 12px; background: rgba(156,39,176,0.05); text-align: center;"><strong>加权求和 V</strong><br><span style="font-size:0.8em; color:#888;">得到输出</span></span>
+</div>
+</div>
 
 > **设计 vs 涌现的分界线：** 这四步的结构（点积→缩放→softmax→加权求和）是人类设计的。但每一步里的具体数值（Wq、Wk、Wv 的参数）是训练出来的。人类搭了舞台，机器自己编了剧本。
 
@@ -510,13 +516,25 @@ x（768维）切成 12 份:
 
 每个 head 独立计算自己的注意力权重，然后把 12 个输出拼接回 768 维：
 
-```
-  Head 1 输出 (64维) ┐
-  Head 2 输出 (64维) │
-  Head 3 输出 (64维) │
-  ...                ├── 拼接 → 768维 → × Wo → 最终输出 (768维)
-  Head 12输出 (64维) ┘
-```
+<div style="max-width: 500px; margin: 1em auto; font-size: 0.93em;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+<div style="border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; background: rgba(33,150,243,0.05); font-size: 0.9em;">Head 1 输出 (64维)</div>
+<div style="border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; background: rgba(33,150,243,0.05); font-size: 0.9em;">Head 2 输出 (64维)</div>
+<div style="border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; background: rgba(33,150,243,0.05); font-size: 0.9em;">Head 3 输出 (64维)</div>
+<div style="text-align: center; color: #888;">...</div>
+<div style="border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; background: rgba(33,150,243,0.05); font-size: 0.9em;">Head 12 输出 (64维)</div>
+</div>
+<div style="font-size: 1.2em; color: #888;">→</div>
+<div style="border: 2px solid #9C27B0; border-radius: 8px; padding: 10px 14px; background: rgba(156,39,176,0.05); text-align: center;">
+<strong>拼接</strong><br><span style="font-size: 0.85em;">768维</span><br><span style="font-size: 0.85em; color: #888;">× Wo</span>
+</div>
+<div style="font-size: 1.2em; color: #888;">→</div>
+<div style="border: 2px solid #4CAF50; border-radius: 8px; padding: 10px 14px; background: rgba(76,175,80,0.05); text-align: center;">
+<strong>最终输出</strong><br><span style="font-size: 0.85em;">768维</span>
+</div>
+</div>
+</div>
 
 最后还有一个 Wo 矩阵（768×768），用来让不同 head 的结果互相混合。
 
@@ -554,22 +572,27 @@ Attention 只是 Transformer 的一个组件。从 Attention 输出到最终预�
 
 ### Transformer 的一层
 
-```
-输入 x
-  ↓
-┌─────────────────────────┐
-│  Multi-Head Attention    │  ← 上下文信息融合（本文讲的全部内容）
-│  + 残差连接 + 归一化     │
-└────────────┬────────────┘
-             ↓
-┌─────────────────────────┐
-│  Feed-Forward Network    │  ← 对每个位置独立做非线性变换
-│  (FFN, 两层全连接)       │     可以理解为"深层加工"
-│  + 残差连接 + 归一化     │
-└────────────┬────────────┘
-             ↓
-输出 x'（和输入同样大小的向量）
-```
+<div style="max-width: 520px; margin: 1em auto; font-size: 0.93em;">
+
+<div style="text-align: center; margin-bottom: 4px; font-weight: bold;">输入 x</div>
+<div style="text-align: center; font-size: 1.2em; color: #888; margin: 2px 0;">↓</div>
+
+<div style="border: 2px solid #2196F3; border-radius: 8px; padding: 10px 16px; background: rgba(33,150,243,0.05); margin-bottom: 2px;">
+<strong>Multi-Head Attention</strong> ← 上下文信息融合（本文讲的全部内容）<br>
+<span style="font-size: 0.85em; color: #888;">+ 残差连接 + 归一化</span>
+</div>
+
+<div style="text-align: center; font-size: 1.2em; color: #888; margin: 2px 0;">↓</div>
+
+<div style="border: 2px solid #FF9800; border-radius: 8px; padding: 10px 16px; background: rgba(255,152,0,0.05); margin-bottom: 2px;">
+<strong>Feed-Forward Network (FFN, 两层全连接)</strong> ← 对每个位置独立做非线性变换<br>
+<span style="font-size: 0.85em; color: #888;">+ 残差连接 + 归一化</span>
+</div>
+
+<div style="text-align: center; font-size: 1.2em; color: #888; margin: 2px 0;">↓</div>
+<div style="text-align: center; font-weight: bold;">输出 x'（和输入同样大小的向量）</div>
+
+</div>
 
 一个 Transformer 由多层这样的结构堆叠：GPT-2 有 12 层，GPT-3 有 96 层，我们的西游记模型有 4 层。
 
