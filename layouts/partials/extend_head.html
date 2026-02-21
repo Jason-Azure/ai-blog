@@ -1,4 +1,23 @@
 {{- /* Head custom content area start */ -}}
+
+{{- /* === Code block font fix (all pages) === */ -}}
+<style>
+.post-content pre code {
+  font-family: 'Menlo', 'Monaco', 'Courier New', 'Noto Sans Mono CJK SC', monospace;
+  font-size: 0.82em;
+  line-height: 1.6;
+  word-break: normal;
+  white-space: pre;
+  overflow-x: auto;
+}
+.post-content p code,
+.post-content li code,
+.post-content td code {
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 0.85em;
+}
+</style>
+
 {{- if .IsHome }}
 <style>
 /* ========== Opening Essay ========== */
