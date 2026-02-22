@@ -33,8 +33,12 @@ TocOpen: true
 > ▹ 第二篇：向量的加减法 — 点积、余弦相似度、AI 衡量"相似"的方法</div>
 > <div style="border-left: 3px solid #ccc; padding-left: 12px; margin-bottom: 6px; padding: 8px 12px; color: #888;">
 > ▹ 第三篇：矩阵——空间的变形术 — 矩阵如何变换空间（含动画演示）</div>
-> <div style="border-left: 3px solid #ccc; padding-left: 12px; padding: 8px 12px; color: #888;">
+> <div style="border-left: 3px solid #ccc; padding-left: 12px; margin-bottom: 6px; padding: 8px 12px; color: #888;">
 > ▹ 第四篇：矩阵乘法与 AI — 理解 Transformer 的最后一块拼图</div>
+> <div style="border-left: 3px solid #ccc; padding-left: 12px; margin-bottom: 6px; padding: 8px 12px; color: #888;">
+> ▹ 第五篇：激活函数——神经网络的开关</div>
+> <div style="border-left: 3px solid #ccc; padding-left: 12px; padding: 8px 12px; color: #888;">
+> ▹ 第六篇：梯度下降——AI 怎么学习</div>
 > </div>
 
 ---

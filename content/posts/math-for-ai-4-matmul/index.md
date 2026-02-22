@@ -42,6 +42,10 @@ TocOpen: true
 > ▹ 第三篇：矩阵——空间的变形术</div>
 > <div style="border-left: 3px solid #4CAF50; padding-left: 12px; background: rgba(76,175,80,0.05); padding: 8px 12px; border-radius: 0 4px 4px 0;">
 > <strong>▸ 第四篇（本文）：矩阵乘法与 AI</strong> — 理解 Transformer 的最后一块拼图</div>
+> <div style="border-left: 3px solid #ccc; padding-left: 12px; margin-bottom: 6px; padding: 8px 12px; color: #888;">
+> ▹ 第五篇：激活函数——神经网络的开关</div>
+> <div style="border-left: 3px solid #ccc; padding-left: 12px; padding: 8px 12px; color: #888;">
+> ▹ 第六篇：梯度下降——AI 怎么学习</div>
 > </div>
 
 ---
@@ -228,11 +232,11 @@ Attention 输出 = softmax(QK^T/√d) × V:
 
 ---
 
-## 系列总结：从数字到智能
-
-四篇文章，我们走过了一条清晰的路径：
+## 本章小结
 
 <div style="max-width: 520px; margin: 1.5em auto; padding: 20px; border-radius: 8px; border: 2px solid #4CAF50; background: rgba(76,175,80,0.04);">
+
+四篇文章，我们走过了一条清晰的路径：
 
 ```text
 第一篇: 文字 → 数字（向量 = 一串有序的数字）
@@ -242,29 +246,15 @@ Attention 输出 = softmax(QK^T/√d) × V:
 第三篇: 数字 → 变换（矩阵 = 空间变形术）
              ↓
 第四篇: 全部组装 → Attention = softmax(QKᵀ/√d) × V
-             ↓
-ChatGPT 的每一次回答，都是这个公式的数万亿次执行
 ```
 
 </div>
 
 你现在具备了理解任何 AI 论文中数学符号的基础。看到 θ、W、Q、K、V、softmax——你都知道它们在做什么。
 
-<div style="max-width: 520px; margin: 1.5em auto; padding: 20px; border-radius: 8px; border: 2px solid #FF9800; background: rgba(255,152,0,0.04);">
+但 Attention 只是 Transformer 的一半。下一篇我们来看另一半——**激活函数**。它是让深度学习"深"起来的关键。
 
-<div style="font-weight: bold; margin-bottom: 12px; font-size: 1.05em;">全系列核心公式速查</div>
-
-| 概念 | 公式 | 篇章 |
-|------|------|------|
-| 向量 | v = [v₁, v₂, ..., vₙ] | 第一篇 |
-| 点积 | a · b = Σ aᵢ × bᵢ | 第二篇 |
-| 余弦相似度 | cos(a,b) = a·b / (‖a‖ × ‖b‖) | 第二篇 |
-| 矩阵×向量 | M × v = [行₁·v, 行₂·v, ...] | 第三篇 |
-| Attention | softmax(QKᵀ/√d) × V | 第四篇 |
-
-</div>
-
-> 如果你还没读过我们的 [Attention 机制完整拆解文章](/ai-blog/posts/transformer-attention/)，现在是最好的时机——有了这四篇数学基础，那篇文章里的每一个公式你都能看懂了。
+> 下一篇：**AI 的数学语言（五）：激活函数——神经网络的开关**
 
 ---
 
