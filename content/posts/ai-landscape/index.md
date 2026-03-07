@@ -121,34 +121,12 @@ elif 老静安 and 学区房:     价格 = 面积 × 15万
 
 然后重复。猜 → 量化差距 → 调整。几千次之后，那条线就贴合了数据。
 
-<div style="max-width: 460px; margin: 1.5em auto; padding: 0;">
-<svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; background: #fafafa; border-radius: 8px; border: 1px solid #e0e0e0;">
-  <style>
-    @keyframes fit { 0%{transform:rotate(-5deg) translate(0,80px)} 30%{transform:rotate(5deg) translate(0,20px)} 60%{transform:rotate(0deg) translate(0,5px)} 100%{transform:rotate(0deg) translate(0,0)} }
-    .fit-line { animation: fit 4s ease-in-out infinite; transform-origin: 200px 130px; }
-  </style>
-  <!-- 坐标轴 -->
-  <line x1="50" y1="220" x2="380" y2="220" stroke="#999" stroke-width="1.5"/>
-  <line x1="50" y1="220" x2="50" y2="20" stroke="#999" stroke-width="1.5"/>
-  <text x="210" y="250" text-anchor="middle" fill="#888" font-size="13">面积（平米）</text>
-  <text x="18" y="120" text-anchor="middle" fill="#888" font-size="13" transform="rotate(-90,18,120)">价格（万元）</text>
-  <!-- 数据点 -->
-  <circle cx="80" cy="190" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="110" cy="175" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="130" cy="155" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="160" cy="160" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="180" cy="130" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="210" cy="125" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="240" cy="105" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="260" cy="110" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="290" cy="80" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="310" cy="70" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="340" cy="55" r="5" fill="#42A5F5" opacity="0.8"/>
-  <circle cx="360" cy="45" r="5" fill="#42A5F5" opacity="0.8"/>
-  <!-- 拟合线（动画） -->
-  <line class="fit-line" x1="60" y1="200" x2="370" y2="40" stroke="#E53935" stroke-width="2.5" stroke-dasharray="none" opacity="0.85"/>
-</svg>
-<div style="color: #888; font-size: 0.82em; margin-top: 6px; text-align: center;">蓝点：真实成交数据 &nbsp;|&nbsp; 红线：模型预测——不断调整参数，逐步逼近真实分布</div>
+<div style="max-width: 500px; margin: 1.5em auto; text-align: center;">
+
+<img src="regression_fit.gif" alt="梯度下降拟合过程" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.12);">
+
+<div style="color: #888; font-size: 0.82em; margin-top: 6px;">蓝点：真实成交数据 ｜ 红线：模型预测——随着训练进行，Loss 不断下降，预测线逐步逼近真实分布</div>
+
 </div>
 
 **这个循环——前向传播、计算 Loss、梯度下降——是所有机器学习的训练核心。** 从 1990 年代的线性回归到 2024 年训练 GPT-4，底层都是它。
