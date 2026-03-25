@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模型解剖图</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.container { max-width: 800px; width: 100%; }
+
+h1 {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #9C27B0, #2196F3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 0.85em;
+  margin-bottom: 40px;
+}
+
+.model-stack {
+  position: relative;
+}
+
+.layer {
+  display: flex;
+  align-items: stretch;
+  margin: 6px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 70px;
+}
+.layer:hover { transform: scale(1.02); }
+
+.layer-icon {
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8em;
+  flex-shrink: 0;
+}
+.layer-body {
+  flex: 1;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.layer-body h3 { font-size: 1em; margin-bottom: 2px; }
+.layer-body p { font-size: 0.8em; opacity: 0.7; }
+
+.layer-lock {
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* Colors */
+.l-arch { background: rgba(76, 175, 80, 0.15); }
+.l-arch .layer-icon { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+.l-arch .layer-lock { color: #4CAF50; }
+
+.l-output { background: rgba(139, 195, 74, 0.15); }
+.l-output .layer-icon { background: rgba(139, 195, 74, 0.2); color: #8BC34A; }
+.l-output .layer-lock { color: #8BC34A; }
+
+.l-recipe { background: rgba(255, 193, 7, 0.15); }
+.l-recipe .layer-icon { background: rgba(255, 193, 7, 0.2); color: #FFC107; }
+.l-recipe .layer-lock { color: #FFC107; }
+
+.l-data { background: rgba(255, 152, 0, 0.15); }
+.l-data .layer-icon { background: rgba(255, 152, 0, 0.2); color: #FF9800; }
+.l-data .layer-lock { color: #FF9800; }
+
+.l-align { background: rgba(233, 30, 99, 0.15); }
+.l-align .layer-icon { background: rgba(233, 30, 99, 0.2); color: #E91E63; }
+.l-align .layer-lock { color: #E91E63; }
+
+.l-weight { background: rgba(244, 67, 54, 0.15); }
+.l-weight .layer-icon { background: rgba(244, 67, 54, 0.2); color: #f44336; }
+.l-weight .layer-lock { color: #f44336; }
+
+.detail {
+  display: none;
+  padding: 12px 16px;
+  margin: -4px 0 6px;
+  border-radius: 0 0 12px 12px;
+  font-size: 0.85em;
+  line-height: 1.6;
+  color: #aaa;
+}
+.detail.show { display: block; }
+
+.d-arch { background: rgba(76, 175, 80, 0.08); border: 1px solid rgba(76, 175, 80, 0.2); border-top: none; }
+.d-output { background: rgba(139, 195, 74, 0.08); border: 1px solid rgba(139, 195, 74, 0.2); border-top: none; }
+.d-recipe { background: rgba(255, 193, 7, 0.08); border: 1px solid rgba(255, 193, 7, 0.2); border-top: none; }
+.d-data { background: rgba(255, 152, 0, 0.08); border: 1px solid rgba(255, 152, 0, 0.2); border-top: none; }
+.d-align { background: rgba(233, 30, 99, 0.08); border: 1px solid rgba(233, 30, 99, 0.2); border-top: none; }
+.d-weight { background: rgba(244, 67, 54, 0.08); border: 1px solid rgba(244, 67, 54, 0.2); border-top: none; }
+
+.arrow-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+  gap: 20px;
+}
+.arrow-zone .arrow {
+  font-size: 2em;
+  color: #E91E63;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.arrow-zone .label {
+  font-size: 0.95em;
+  color: #E91E63;
+  font-weight: bold;
+}
+
+.api-box {
+  text-align: center;
+  padding: 20px;
+  border: 2px dashed rgba(139, 195, 74, 0.4);
+  border-radius: 12px;
+  margin-top: 10px;
+}
+.api-box .big { font-size: 1.1em; font-weight: bold; color: #8BC34A; }
+.api-box .small { font-size: 0.8em; color: #888; margin-top: 6px; }
+
+.footer {
+  text-align: center;
+  margin-top: 30px;
+  color: #555;
+  font-size: 0.8em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>解剖一个大模型</h1>
+  <p class="subtitle">什么能通过 API "偷"到？什么不能？（点击查看详情）</p>
+
+  <div class="model-stack">
+    <div class="layer l-arch" onclick="toggle('d1')">
+      <div class="layer-icon">📐</div>
+      <div class="layer-body">
+        <h3>架构（Architecture）</h3>
+        <p>Transformer · MoE · Attention</p>
+      </div>
+      <div class="layer-lock">📖 公开</div>
+    </div>
+    <div class="detail d-arch" id="d1">
+      论文公开发表，任何人都可以照着实现。这就像「红烧肉需要酱油和糖」——公共知识，不是秘密。无法通过蒸馏获取（因为根本不需要，直接看论文即可）。
+    </div>
+
+    <div class="layer l-recipe" onclick="toggle('d2')">
+      <div class="layer-icon">🔥</div>
+      <div class="layer-body">
+        <h3>训练方法（Training Recipe）</h3>
+        <p>学习率 · 课程策略 · 数据配比</p>
+      </div>
+      <div class="layer-lock">🔒 半公开</div>
+    </div>
+    <div class="detail d-recipe" id="d2">
+      论文通常公开部分信息，但关键细节故意省略。比如 DeepSeek 论文公开了 GRPO 算法，但训练数据的具体配比、关键超参数等细节并不完整。这些 know-how 是重要竞争力，也无法通过蒸馏获取。
+    </div>
+
+    <div class="layer l-data" onclick="toggle('d3')">
+      <div class="layer-icon">📚</div>
+      <div class="layer-body">
+        <h3>训练数据（Training Data）</h3>
+        <p>万亿 token · 数据筛选 · 质量过滤</p>
+      </div>
+      <div class="layer-lock">🔒 私有</div>
+    </div>
+    <div class="detail d-data" id="d3">
+      用什么数据、怎么清洗、怎么配比——这是核心商业秘密。Anthropic 的 Project Panama 就是关于训练数据的争议。你可以通过提示注入让模型"吐出"部分训练数据，但无法获取完整数据集。
+    </div>
+
+    <div class="layer l-align" onclick="toggle('d4')">
+      <div class="layer-icon">🎯</div>
+      <div class="layer-body">
+        <h3>对齐数据（Alignment / RLHF）</h3>
+        <p>人类偏好标注 · 安全数据 · 价值观训练</p>
+      </div>
+      <div class="layer-lock">🔒 私有</div>
+    </div>
+    <div class="detail d-align" id="d4">
+      数千名人类标注员花费数月标注的偏好数据，成本数百万美元。这是让模型从「会说话」变成「说人话」的关键。不公开，也无法通过 API 直接获取。但蒸馏可以间接学到对齐的「效果」（模型的措辞风格、拒绝模式等）。
+    </div>
+
+    <div class="layer l-weight" onclick="toggle('d5')">
+      <div class="layer-icon">🧠</div>
+      <div class="layer-body">
+        <h3>权重（Weights）</h3>
+        <p>数十亿~数千亿参数 · 核心资产</p>
+      </div>
+      <div class="layer-lock">🔒 最高</div>
+    </div>
+    <div class="detail d-weight" id="d5">
+      模型的全部「知识」都编码在权重里。通过数月训练、数百万美元算力得到。对于闭源模型，这是最核心的商业秘密。绝对无法通过 API 获取——API 只给你输出文本，不给你内部参数。直接偷权重 = 商业秘密盗窃 = 违法。
+    </div>
+  </div>
+
+  <div class="arrow-zone">
+    <span class="arrow">⬇</span>
+    <span class="label">API 调用只能获取</span>
+    <span class="arrow">⬇</span>
+  </div>
+
+  <div class="api-box">
+    <div class="big">📤 输出分布的采样（文本）</div>
+    <div class="small">
+      只能看到「最后端上桌的菜」<br>
+      看不到后厨、看不到食材、看不到调料<br>
+      但这已经包含了大量的「暗知识」
+    </div>
+  </div>
+
+  <div class="footer">
+    AI-lab 学习笔记 · 大模型解剖图
+  </div>
+</div>
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  const all = document.querySelectorAll('.detail');
+  all.forEach(d => { if (d.id !== id) d.classList.remove('show'); });
+  el.classList.toggle('show');
+}
+</script>
+</body>
+</html>

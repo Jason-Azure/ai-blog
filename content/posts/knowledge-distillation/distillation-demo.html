@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识蒸馏原理</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+}
+.container { max-width: 800px; width: 100%; }
+h1 {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #FF9800, #2196F3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 0.85em;
+  margin-bottom: 40px;
+}
+
+.demo-section {
+  margin-bottom: 50px;
+}
+.demo-section h2 {
+  font-size: 1.15em;
+  margin-bottom: 16px;
+  color: #FF9800;
+}
+
+/* Bar chart */
+.chart-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.chart-box {
+  flex: 1;
+  min-width: 300px;
+  max-width: 380px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.chart-box h3 {
+  text-align: center;
+  font-size: 0.95em;
+  margin-bottom: 16px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+  height: 32px;
+}
+.bar-label {
+  width: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+.bar-track {
+  flex: 1;
+  height: 24px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 0.7em;
+  font-weight: bold;
+  color: rgba(255,255,255,0.9);
+}
+
+.bar-fill.highlight { background: linear-gradient(90deg, #FF9800, #f44336); }
+.bar-fill.medium { background: linear-gradient(90deg, #FFC107, #FF9800); }
+.bar-fill.low { background: linear-gradient(90deg, #2196F3, #4CAF50); opacity: 0.6; }
+
+/* Temperature slider */
+.temp-section {
+  margin-top: 20px;
+}
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0;
+  justify-content: center;
+}
+.slider-row label {
+  font-size: 0.9em;
+  color: #FF9800;
+  min-width: 100px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 300px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, #2196F3, #FF9800, #f44336);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(255,152,0,0.5);
+}
+.temp-value {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #FF9800;
+  min-width: 50px;
+  text-align: center;
+}
+
+.insight {
+  text-align: center;
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 10px;
+  background: rgba(255, 152, 0, 0.08);
+  border: 1px solid rgba(255, 152, 0, 0.2);
+  font-size: 0.9em;
+  line-height: 1.6;
+  color: #ccc;
+  transition: all 0.3s;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #4CAF50, #FF9800, #f44336);
+}
+.tl-item {
+  display: flex;
+  margin: 16px 0;
+  position: relative;
+}
+.tl-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-top: 4px;
+  margin-left: 17px;
+  margin-right: 20px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.tl-content {
+  flex: 1;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.tl-date {
+  font-size: 0.75em;
+  color: #888;
+  margin-bottom: 4px;
+}
+.tl-title {
+  font-size: 0.95em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.tl-desc {
+  font-size: 0.8em;
+  color: #999;
+  line-height: 1.5;
+}
+
+.dot-green { background: #4CAF50; box-shadow: 0 0 10px rgba(76,175,80,0.5); }
+.dot-orange { background: #FF9800; box-shadow: 0 0 10px rgba(255,152,0,0.5); }
+.dot-red { background: #f44336; box-shadow: 0 0 10px rgba(244,67,54,0.5); }
+.dot-pink { background: #E91E63; box-shadow: 0 0 10px rgba(233,30,99,0.5); }
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #555;
+  font-size: 0.8em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>知识蒸馏：暗知识与温度</h1>
+  <p class="subtitle">拖动温度滑块，看「暗知识」如何浮现</p>
+
+  <!-- Temperature Demo -->
+  <div class="demo-section">
+    <h2>🌡️ 温度如何改变输出分布</h2>
+    <p style="font-size: 0.85em; color: #888; margin-bottom: 16px; text-align: center;">
+      输入一张手写的 "2"，模型给出每个数字的概率
+    </p>
+
+    <div class="slider-row">
+      <label>Temperature:</label>
+      <input type="range" id="tempSlider" min="0.5" max="5" step="0.1" value="1">
+      <div class="temp-value" id="tempDisplay">T = 1.0</div>
+    </div>
+
+    <div id="barChart" style="max-width: 500px; margin: 0 auto;"></div>
+
+    <div class="insight" id="insightText">
+      T = 1：正常输出。模型很「自信」——93% 的概率给了正确答案 "2"，其他数字几乎看不到。
+    </div>
+  </div>
+
+  <!-- Hard vs Soft -->
+  <div class="demo-section">
+    <h2>📊 硬标签 vs 软标签</h2>
+    <div class="chart-container">
+      <div class="chart-box">
+        <h3>❌ 硬标签：只有答案</h3>
+        <div class="bar-row">
+          <div class="bar-label">2</div>
+          <div class="bar-track"><div class="bar-fill highlight" style="width: 100%">100%</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">3</div>
+          <div class="bar-track"><div class="bar-fill low" style="width: 0%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">7</div>
+          <div class="bar-track"><div class="bar-fill low" style="width: 0%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">其他</div>
+          <div class="bar-track"><div class="bar-fill low" style="width: 0%"></div></div>
+        </div>
+        <p style="font-size: 0.8em; color: #666; margin-top: 12px; text-align: center;">
+          学生只知道"答案是 2"<br>不知道 2 和 3 长得像
+        </p>
+      </div>
+      <div class="chart-box">
+        <h3>✅ 软标签：答案 + 犹豫</h3>
+        <div class="bar-row">
+          <div class="bar-label">2</div>
+          <div class="bar-track"><div class="bar-fill highlight" style="width: 93%">93%</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">3</div>
+          <div class="bar-track"><div class="bar-fill medium" style="width: 45%">4.5%</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">7</div>
+          <div class="bar-track"><div class="bar-fill low" style="width: 20%; opacity: 0.8">1.0%</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">其他</div>
+          <div class="bar-track"><div class="bar-fill low" style="width: 10%; opacity: 0.6">1.5%</div></div>
+        </div>
+        <p style="font-size: 0.8em; color: #aaa; margin-top: 12px; text-align: center;">
+          学生知道 <strong style="color: #FF9800;">"3 比 7 更像 2"</strong><br>这就是<strong style="color: #FF9800;">暗知识</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="demo-section">
+    <h2>⏳ 蒸馏争议时间线</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot dot-green"></div>
+        <div class="tl-content">
+          <div class="tl-date">2015</div>
+          <div class="tl-title">Hinton 发表知识蒸馏论文</div>
+          <div class="tl-desc">提出 Teacher-Student 框架和温度缩放，奠定理论基础</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-green"></div>
+        <div class="tl-content">
+          <div class="tl-date">2023.03</div>
+          <div class="tl-title">Alpaca / Vicuna 开启黑盒蒸馏时代</div>
+          <div class="tl-desc">斯坦福用 GPT-3.5 的输出训练 LLaMA，首次大规模黑盒蒸馏</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-orange"></div>
+        <div class="tl-content">
+          <div class="tl-date">2023.10</div>
+          <div class="tl-title">音乐出版商起诉 Anthropic</div>
+          <div class="tl-desc">Universal Music 等指控 Claude 输出完整版权歌词</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-orange"></div>
+        <div class="tl-content">
+          <div class="tl-date">2024.08</div>
+          <div class="tl-title">作家集体诉讼 Anthropic</div>
+          <div class="tl-desc">指控使用盗版书籍训练 Claude（Bartz v. Anthropic）</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-red"></div>
+        <div class="tl-content">
+          <div class="tl-date">2025.01</div>
+          <div class="tl-title">DeepSeek R1 发布 · OpenAI 指控蒸馏</div>
+          <div class="tl-desc">R1 引发全球轰动。OpenAI 称 DeepSeek 可能"不当使用"其模型输出</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-red"></div>
+        <div class="tl-content">
+          <div class="tl-date">2025.09</div>
+          <div class="tl-title">Anthropic 赔偿 $15 亿</div>
+          <div class="tl-desc">美国历史上最大版权和解案。每本书 $3,000 加利息</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-pink"></div>
+        <div class="tl-content">
+          <div class="tl-date">2026.01</div>
+          <div class="tl-title">Project Panama 曝光</div>
+          <div class="tl-desc">Washington Post 揭露 Anthropic "破坏性扫描世界上所有的书" 的机密计划</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot dot-pink"></div>
+        <div class="tl-content">
+          <div class="tl-date">2026.02</div>
+          <div class="tl-title">Anthropic 指控三家中国公司</div>
+          <div class="tl-desc">指控 DeepSeek 等使用数千欺诈性账户、数百万次对话收集 Claude 输出</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    AI-lab 学习笔记 · 知识蒸馏可视化
+  </div>
+</div>
+
+<script>
+const logits = {
+  '0': 0.5, '1': 0.8, '2': 8.0, '3': 3.5, '4': 1.0,
+  '5': 0.3, '6': 1.5, '7': 2.2, '8': 0.7, '9': 0.4
+};
+const digits = ['0','1','2','3','4','5','6','7','8','9'];
+
+function softmax(logits, T) {
+  const scaled = Object.values(logits).map(z => Math.exp(z / T));
+  const sum = scaled.reduce((a, b) => a + b, 0);
+  return scaled.map(v => v / sum);
+}
+
+function renderBars(T) {
+  const probs = softmax(logits, T);
+  const maxProb = Math.max(...probs);
+  const container = document.getElementById('barChart');
+  container.innerHTML = '';
+
+  digits.forEach((d, i) => {
+    const pct = (probs[i] * 100);
+    const width = (probs[i] / maxProb * 100);
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+
+    let fillClass = 'low';
+    if (d === '2') fillClass = 'highlight';
+    else if (pct > 5) fillClass = 'medium';
+
+    row.innerHTML = `
+      <div class="bar-label">${d}</div>
+      <div class="bar-track">
+        <div class="bar-fill ${fillClass}" style="width: ${width}%; min-width: ${pct > 0.5 ? '40px' : '0'}">
+          ${pct >= 1 ? pct.toFixed(1) + '%' : pct.toFixed(2) + '%'}
+        </div>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function updateInsight(T) {
+  const el = document.getElementById('insightText');
+  if (T <= 1.2) {
+    el.innerHTML = `<strong>T = ${T.toFixed(1)}</strong>：正常输出。模型很「自信」——绝大部分概率集中在正确答案 "2" 上。其他数字的概率几乎为零。<br><strong>暗知识被隐藏了。</strong>`;
+  } else if (T <= 2.5) {
+    el.innerHTML = `<strong>T = ${T.toFixed(1)}</strong>：概率开始「软化」。"3" 和 "7" 的概率明显上升——它们和 "2" 有某种相似性。<br><strong>暗知识开始浮现：</strong>模型觉得 "2" 更像 "3"（弧线相似），而不像 "0"。`;
+  } else {
+    el.innerHTML = `<strong>T = ${T.toFixed(1)}</strong>：高温蒸馏。所有数字的概率趋近均匀，但相对大小保持不变——这些微小的差异就是<strong>暗知识的全部</strong>。<br>学生模型通过学习这些相对关系，获得了老师的「思维方式」。`;
+  }
+}
+
+const slider = document.getElementById('tempSlider');
+const display = document.getElementById('tempDisplay');
+
+slider.addEventListener('input', function() {
+  const T = parseFloat(this.value);
+  display.textContent = `T = ${T.toFixed(1)}`;
+  renderBars(T);
+  updateInsight(T);
+});
+
+renderBars(1);
+</script>
+</body>
+</html>

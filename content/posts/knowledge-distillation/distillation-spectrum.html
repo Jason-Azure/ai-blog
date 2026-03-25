@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识蒸馏光谱</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.6em;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #4CAF50, #E91E63);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 0.9em;
+  margin-bottom: 40px;
+}
+
+.spectrum {
+  position: relative;
+  padding: 0 20px;
+}
+
+.spectrum-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #4CAF50, #8BC34A, #FFC107, #FF9800, #f44336);
+  margin: 0 40px 30px;
+  position: relative;
+}
+
+.spectrum-labels {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px 40px;
+  font-size: 0.8em;
+  color: #888;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.item:hover {
+  transform: translateX(8px);
+}
+
+.item .num {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-right: 16px;
+  min-width: 36px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.item .content h3 {
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+
+.item .content p {
+  font-size: 0.85em;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.item .tag {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+/* Color levels */
+.level-1 { background: rgba(76, 175, 80, 0.1); border-left: 4px solid #4CAF50; }
+.level-1 .num { color: #4CAF50; }
+.level-1 .tag { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+
+.level-2 { background: rgba(139, 195, 74, 0.1); border-left: 4px solid #8BC34A; }
+.level-2 .num { color: #8BC34A; }
+.level-2 .tag { background: rgba(139, 195, 74, 0.2); color: #8BC34A; }
+
+.level-3 { background: rgba(255, 193, 7, 0.1); border-left: 4px solid #FFC107; }
+.level-3 .num { color: #FFC107; }
+.level-3 .tag { background: rgba(255, 193, 7, 0.2); color: #FFC107; }
+
+.level-4 { background: rgba(255, 152, 0, 0.1); border-left: 4px solid #FF9800; }
+.level-4 .num { color: #FF9800; }
+.level-4 .tag { background: rgba(255, 152, 0, 0.2); color: #FF9800; }
+
+.level-5 { background: rgba(244, 67, 54, 0.1); border-left: 4px solid #f44336; }
+.level-5 .num { color: #f44336; }
+.level-5 .tag { background: rgba(244, 67, 54, 0.2); color: #f44336; }
+
+.expanded {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.85em;
+  line-height: 1.6;
+  color: #aaa;
+}
+
+.item.active .expanded { display: block; }
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #555;
+  font-size: 0.8em;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>蒸馏的光谱</h1>
+  <p class="subtitle">从"完全合法"到"明显违规"——边界在哪里？（点击展开详情）</p>
+
+  <div class="spectrum">
+    <div class="spectrum-bar"></div>
+    <div class="spectrum-labels">
+      <span>✅ 完全合法</span>
+      <span>⚠️ 灰色地带</span>
+      <span>❌ 明显违规</span>
+    </div>
+
+    <div class="item level-1" onclick="this.classList.toggle('active')">
+      <div class="num">①</div>
+      <div class="content">
+        <h3>照论文复现架构</h3>
+        <p>根据公开论文实现 Transformer / MoE 等架构</p>
+        <div class="expanded">
+          论文是学术界的公共品。Google 发表了 Transformer 论文，全世界都可以实现它。这不是蒸馏，而是正常的科学进步。没有任何法律或道德争议。
+        </div>
+      </div>
+      <div class="tag">✅ 合法</div>
+    </div>
+
+    <div class="item level-1" onclick="this.classList.toggle('active')">
+      <div class="num">②</div>
+      <div class="content">
+        <h3>使用开源模型微调</h3>
+        <p>基于 Llama / Qwen 等开源模型做微调训练</p>
+        <div class="expanded">
+          开源模型发布时就附带了许可证（Apache 2.0、MIT 等），明确允许修改和商用。使用开源模型做微调，就像用面粉做面包——面粉本来就是让你用的。
+        </div>
+      </div>
+      <div class="tag">✅ 合法</div>
+    </div>
+
+    <div class="item level-2" onclick="this.classList.toggle('active')">
+      <div class="num">③</div>
+      <div class="content">
+        <h3>从自己的大模型蒸馏出小模型</h3>
+        <p>DeepSeek 从 R1 蒸馏出 Distill 系列就是这种</p>
+        <div class="expanded">
+          这是最经典、最正当的蒸馏。你用自己的资源训练了大模型，然后把知识转移到小模型里。DeepSeek 公开论文详细描述了过程。完全合法，完全透明。但在舆论中，这常常和"从竞争对手偷数据"被混为一谈。
+        </div>
+      </div>
+      <div class="tag">✅ 合法</div>
+    </div>
+
+    <div class="item level-3" onclick="this.classList.toggle('active')">
+      <div class="num">④</div>
+      <div class="content">
+        <h3>训练语料恰好包含 AI 生成文本</h3>
+        <p>互联网上越来越多 AI 生成内容，不可避免地进入训练集</p>
+        <div class="expanded">
+          当互联网上 20%+ 的内容是 AI 生成的，任何在网上爬取训练数据的行为都会"偶然"包含 AI 输出。这不是有意的蒸馏，而是时代的副产品。没有人能完全过滤掉 AI 生成内容。
+        </div>
+      </div>
+      <div class="tag">⚠️ 偶然</div>
+    </div>
+
+    <div class="item level-3" onclick="this.classList.toggle('active')">
+      <div class="num">⑤</div>
+      <div class="content">
+        <h3>收集公开分享的对话（ShareGPT 等）</h3>
+        <p>用户公开分享的 ChatGPT 对话被收集为训练数据</p>
+        <div class="expanded">
+          Vicuna 模型就是在 ShareGPT 数据上训练的（70K 条用户主动分享的 ChatGPT 对话）。用户自愿公开分享了这些对话——但 OpenAI 的 ToS 说输出不能用于训练竞争模型。用户分享的权利 vs 模型公司的 ToS，谁优先？
+        </div>
+      </div>
+      <div class="tag">⚠️ 灰色</div>
+    </div>
+
+    <div class="item level-4" onclick="this.classList.toggle('active')">
+      <div class="num">⑥</div>
+      <div class="content">
+        <h3>系统性调用 API 收集输出</h3>
+        <p>有目的地大量调用模型 API，收集输出作为训练数据</p>
+        <div class="expanded">
+          这是争议最大的行为。技术上就是黑盒蒸馏——用 API 输出做训练数据。违反 ToS，但 ToS 是合同不是法律。而且，如果 AI 输出不受版权保护，蒸馏侵犯的到底是什么权利？
+        </div>
+      </div>
+      <div class="tag">⚠️ 违反ToS</div>
+    </div>
+
+    <div class="item level-4" onclick="this.classList.toggle('active')">
+      <div class="num">⑦</div>
+      <div class="content">
+        <h3>使用假账号大规模抓取</h3>
+        <p>创建欺诈性账户规避限制，批量抓取模型输出</p>
+        <div class="expanded">
+          Anthropic 指控的核心就是这个——"数千个欺诈性账户"。即使蒸馏本身的合法性有争议，使用假账号可能构成欺诈。这也是 Anthropic 聪明的法律策略：绕过蒸馏争议，聚焦欺诈行为。
+        </div>
+      </div>
+      <div class="tag">❌ 涉嫌欺诈</div>
+    </div>
+
+    <div class="item level-5" onclick="this.classList.toggle('active')">
+      <div class="num">⑧</div>
+      <div class="content">
+        <h3>直接盗取模型权重</h3>
+        <p>入侵系统或内部人员泄密，直接复制模型文件</p>
+        <div class="expanded">
+          这不是蒸馏——这是商业秘密盗窃，可能触犯《计算机欺诈和滥用法》(CFAA)。没有灰色地带，明确违法。但目前所有蒸馏指控案中，都没有涉及直接盗取权重。
+        </div>
+      </div>
+      <div class="tag">❌ 违法</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    AI-lab 学习笔记 · 知识蒸馏光谱图
+  </div>
+</div>
+</body>
+</html>
