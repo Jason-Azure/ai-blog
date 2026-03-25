@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息论时间线</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a1a;
+  color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.container { max-width: 780px; width: 100%; }
+h2 {
+  text-align: center; font-size: 1.3em; margin-bottom: 6px;
+  background: linear-gradient(135deg, #4CAF50, #2196F3);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.subtitle { text-align: center; color: #888; font-size: 0.85em; margin-bottom: 30px; }
+
+.timeline { position: relative; padding: 10px 0; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #4CAF50, #2196F3, #9C27B0, #E91E63, #FF9800);
+}
+
+.era-label {
+  position: relative;
+  margin: 20px 0 10px;
+  padding-left: 52px;
+  font-size: 0.85em;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.tl-item {
+  display: flex;
+  margin: 8px 0;
+  position: relative;
+  cursor: pointer;
+}
+.tl-item:hover .tl-body { transform: translateX(4px); }
+
+.tl-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  margin-top: 6px;
+  margin-left: 14px;
+  margin-right: 14px;
+  flex-shrink: 0;
+  z-index: 1;
+  transition: transform 0.2s;
+}
+.tl-item:hover .tl-dot { transform: scale(1.4); }
+
+.tl-body {
+  flex: 1;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.2s;
+}
+.tl-year { font-size: 0.75em; color: #888; }
+.tl-title { font-size: 0.9em; font-weight: bold; margin: 2px 0; }
+.tl-desc { font-size: 0.8em; color: #999; line-height: 1.5; }
+
+.tl-detail {
+  display: none;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.8em;
+  line-height: 1.6;
+  color: #aaa;
+}
+.tl-item.open .tl-detail { display: block; }
+
+.dot-green { background: #4CAF50; box-shadow: 0 0 8px rgba(76,175,80,0.4); }
+.dot-blue { background: #2196F3; box-shadow: 0 0 8px rgba(33,150,243,0.4); }
+.dot-purple { background: #9C27B0; box-shadow: 0 0 8px rgba(156,39,176,0.4); }
+.dot-pink { background: #E91E63; box-shadow: 0 0 8px rgba(233,30,99,0.4); }
+.dot-orange { background: #FF9800; box-shadow: 0 0 8px rgba(255,152,0,0.4); }
+
+.footer { text-align: center; margin-top: 20px; color: #555; font-size: 0.75em; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>从电报到 GPT：信息论的 187 年</h2>
+  <p class="subtitle">点击事件查看详情。一根线，从 1838 连到 2025。</p>
+
+  <div class="timeline">
+    <div class="era-label" style="color: #4CAF50;">▎ 起源</div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-green"></div>
+      <div class="tl-body">
+        <div class="tl-year">1838</div>
+        <div class="tl-title">Morse 电码 —— 最早的变长编码</div>
+        <div class="tl-desc">E = · &ensp; T = — &ensp; Q = ——·—</div>
+        <div class="tl-detail">Morse 跑到印刷厂数铅字，让常用字母用最短的编码。这就是信息论的第一个直觉：<strong>频率高的符号，应该用更短的表示</strong>。110 年后 Shannon 会用数学证明这一点。</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-green"></div>
+      <div class="tl-body">
+        <div class="tl-year">1948</div>
+        <div class="tl-title">Shannon —— 信息论诞生</div>
+        <div class="tl-desc">定义 bit、熵、信道容量，一篇论文改变一切</div>
+        <div class="tl-detail">《A Mathematical Theory of Communication》。Shannon 给信息一个精确定义，证明了信源编码定理和信道编码定理。所有现代通信——从手机到互联网到 LLM——都建立在这篇论文的基础上。</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-green"></div>
+      <div class="tl-body">
+        <div class="tl-year">1951</div>
+        <div class="tl-title">Shannon 的人肉实验</div>
+        <div class="tl-desc">让人类预测英文下一个字母，估算英语熵 ≈ 1.0-1.5 bit/字符</div>
+        <div class="tl-detail">Shannon 用人类做"语言模型"——给定上文，预测下一个字符。这和今天 GPT 做的事情<strong>完全一样</strong>。他在 1951 年就预演了自然语言处理 70 年的发展方向。</div>
+      </div>
+    </div>
+
+    <div class="era-label" style="color: #2196F3;">▎ 压缩时代</div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-body">
+        <div class="tl-year">1952</div>
+        <div class="tl-title">Huffman 编码 —— 最优前缀码</div>
+        <div class="tl-desc">直接从 Shannon 熵推导出的编码方案</div>
+        <div class="tl-detail">David Huffman 在 MIT 的课堂作业中发明了最优前缀编码。JPEG、MP3、ZIP 里都有它的影子。它是 Morse 直觉的数学最优版本。</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-body">
+        <div class="tl-year">1977</div>
+        <div class="tl-title">Lempel-Ziv 压缩</div>
+        <div class="tl-desc">字典压缩，ZIP / gzip 的基础</div>
+        <div class="tl-detail">LZ77/LZ78 算法用"字典"记住重复出现的模式。你每天用的 ZIP 文件就是基于这个原理。</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-blue"></div>
+      <div class="tl-body">
+        <div class="tl-year">1994</div>
+        <div class="tl-title">BPE —— 一个压缩算法</div>
+        <div class="tl-desc">Byte Pair Encoding，后来成为 GPT 的 tokenizer</div>
+        <div class="tl-detail">Philip Gage 发明 BPE 时，它只是一个数据压缩算法。二十多年后，它被 Sennrich 等人引入 NLP，成为几乎所有现代 LLM 的分词器。<strong>从压缩算法到 AI 基础设施</strong>——信息论的线从未断过。</div>
+      </div>
+    </div>
+
+    <div class="era-label" style="color: #9C27B0;">▎ 语言模型时代</div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-purple"></div>
+      <div class="tl-body">
+        <div class="tl-year">1990s</div>
+        <div class="tl-title">N-gram 语言模型</div>
+        <div class="tl-desc">直接应用 Shannon 的框架：P(下一个词 | 前 N 个词)</div>
+        <div class="tl-detail">Shannon 1951 年展示的 n 阶近似，在这个时期成为了工程实践。用交叉熵/困惑度衡量模型质量——这是信息论的直接应用。</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-purple"></div>
+      <div class="tl-body">
+        <div class="tl-year">1997</div>
+        <div class="tl-title">LSTM —— 长程依赖</div>
+        <div class="tl-desc">用神经网络学习更长的上下文 → 更好的预测 → 更好的压缩</div>
+        <div class="tl-detail">Hochreiter & Schmidhuber 的 LSTM 能记住更长的上下文，所以能做出更准确的预测。更准确的预测 = 更低的交叉熵 = 更好的压缩。信息论的逻辑一以贯之。</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-purple"></div>
+      <div class="tl-body">
+        <div class="tl-year">2013</div>
+        <div class="tl-title">word2vec —— 语义压缩</div>
+        <div class="tl-desc">把词义压缩进 300 维向量</div>
+        <div class="tl-detail">word2vec 把词汇表中每个词的"含义"压缩成一个 300 维的浮点向量。"King − Man + Woman = Queen" 之所以成立，是因为语义关系被高效地编码（压缩）到了向量空间中。</div>
+      </div>
+    </div>
+
+    <div class="era-label" style="color: #E91E63;">▎ Transformer 时代</div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-pink"></div>
+      <div class="tl-body">
+        <div class="tl-year">2017</div>
+        <div class="tl-title">Transformer —— Attention Is All You Need</div>
+        <div class="tl-desc">训练目标仍然是交叉熵。仍然是预测器。仍然是压缩器。</div>
+        <div class="tl-detail">架构革新了，但训练目标没变——还是最小化交叉熵。Transformer 只是一个更高效的函数逼近器，用来做 Shannon 1951 年让人做的同一件事：预测下一个符号。</div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-pink"></div>
+      <div class="tl-body">
+        <div class="tl-year">2020</div>
+        <div class="tl-title">GPT-3 + Scaling Laws</div>
+        <div class="tl-desc">规模化 → 困惑度可预测地下降 → 压缩效率的幂律</div>
+        <div class="tl-detail">Kaplan et al. 发现了 Scaling Laws：模型越大，交叉熵越低，且遵循幂律。信息论的视角：这是<strong>压缩效率</strong>随模型容量的增长曲线。Chinchilla 后来找到了模型大小和数据量的最优分配。</div>
+      </div>
+    </div>
+
+    <div class="era-label" style="color: #FF9800;">▎ 闭环</div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-orange"></div>
+      <div class="tl-body">
+        <div class="tl-year">2024</div>
+        <div class="tl-title">DeepMind：Language Modeling Is Compression</div>
+        <div class="tl-desc">证明 LLM 就是通用压缩器，压缩文本/图片/音频超过专业算法</div>
+        <div class="tl-detail">圆画满了。Shannon 1948 年说预测 = 压缩。76 年后 DeepMind 用实验证明：一个在文本上训练的语言模型，可以压缩图片超过 PNG，压缩音频超过 FLAC。<strong>因为压缩的本质是发现模式——无论数据是什么。</strong></div>
+      </div>
+    </div>
+
+    <div class="tl-item" onclick="this.classList.toggle('open')">
+      <div class="tl-dot dot-orange"></div>
+      <div class="tl-body">
+        <div class="tl-year">2025</div>
+        <div class="tl-title">推理模型（DeepSeek-R1, o1）</div>
+        <div class="tl-desc">压缩推理模式——Chain-of-Thought 作为序列预测</div>
+        <div class="tl-detail">推理模型学会了"先想再答"。从信息论看，这是在压缩人类的推理模式——把思维链编码为 token 序列，用同样的交叉熵目标来训练。Shannon 的框架依然适用。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">AI-lab 学习笔记 · 信息论时间线</div>
+</div>
+</body>
+</html>
