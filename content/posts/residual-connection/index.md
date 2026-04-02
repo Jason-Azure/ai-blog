@@ -388,6 +388,16 @@ residual_stream = token_embedding
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ 残差流是一条从头到尾不间断的信息河流。Attention 和 MLP 是沿河的工厂——从河中读取信息，处理后写回</div>
 
+下面的动画展示了数据在残差流中的完整旅程——从 `tok_emb + pos_emb` 初始化开始，经过每一层的 Attention 和 MLP，信息越来越丰富，河流从不中断：
+
+<div style="text-align: center;">
+
+![数据在残差流中的旅程：信息逐层叠加，河流从不中断](05_residual_flow.gif)
+
+</div>
+
+<div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ 蓝色球 = 残差流中的数据。每经过一个"工厂"（Attention/MLP），新的信息被叠加进来，但原有信息完整保留</div>
+
 ### 回到 tok_emb + pos_emb
 
 现在你可以重新理解 Transformer 的第一步了：
