@@ -28,7 +28,7 @@ TocOpen: true
 
 让我们看看这个形状到底藏了什么。
 
-![Vesica Piscis 与 √3 的推导动画](/images/two-circles-1/vesica_piscis_sqrt3.gif)
+![Vesica Piscis 与 √3 的推导动画](vesica_piscis_sqrt3.gif)
 
 设两个圆的半径都是 r。因为第二个圆的圆心落在第一个圆的边缘上，两个圆心之间的距离也等于 r。
 
@@ -62,7 +62,7 @@ TocOpen: true
 
 一条链条浮现了：
 
-![从 √3 到黄金比例的几何推导链](/images/two-circles-1/sqrt_chain.png)
+![从 √3 到黄金比例的几何推导链](sqrt_chain.png)
 
 ```text
 两个圆相交
@@ -98,7 +98,7 @@ TocOpen: true
 
 遵循一条规则：**每个新圆的圆心，落在已有圆的交点上。**
 
-![生命之花的构建过程动画](/images/two-circles-1/flower_construction_steps.gif)
+![生命之花的构建过程动画](flower_construction_steps.gif)
 
 第一步：1 个圆。
 
@@ -114,7 +114,7 @@ TocOpen: true
 
 一条规则，生长出一整个数学宇宙。
 
-![完整的生命之花图案](/images/two-circles-1/flower_of_life_full.png)
+![完整的生命之花图案](flower_of_life_full.png)
 *19 个等径圆构成的生命之花——从一个圆规动作中生长出来的完美对称*
 
 ---
@@ -127,12 +127,12 @@ TocOpen: true
 
 **埃及，阿拜多斯（Abydos）。** 在古埃及最神圣的遗址之一——奥西里斯神庙（Osireion）的花岗岩石柱上，用红赭石烙印着完整的生命之花图案。这座神庙的历史可追溯至公元前 1300 年左右，部分学者认为其基础结构更为古老。
 
-![阿比多斯奥西里斯神庙的生命之花](/images/two-circles-1/abydos_flower_of_life.jpg)
+![阿比多斯奥西里斯神庙的生命之花](abydos_flower_of_life.jpg)
 *埃及阿拜多斯奥西里斯神庙石柱上的生命之花图案（图源: Wikimedia Commons, CC BY-SA 3.0）*
 
 **中国，北京紫禁城。** 太和门前的铜狮子，右爪下踩着一个绣球。这个绣球的表面，雕刻着精确的生命之花图案。明代工匠留下了这个几何密码，五百多年来接受着数以亿计游客的目光——但很少有人低头仔细看过。
 
-![紫禁城铜狮绣球上的生命之花](/images/two-circles-1/forbidden_city_flower.jpg)
+![紫禁城铜狮绣球上的生命之花](forbidden_city_flower.jpg)
 *北京紫禁城太和门铜狮脚下绣球上的生命之花图案（图源: Wikimedia Commons, CC BY-SA 3.0）*
 
 **土耳其，以弗所（Ephesus）。** 罗马时期的大理石地板上。
