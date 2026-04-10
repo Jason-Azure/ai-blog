@@ -62,7 +62,7 @@ TocOpen: true
 
 一条链条浮现了：
 
-![从 √3 到黄金比例的几何推导链](sqrt_chain.png)
+![从 √3 到黄金比例的几何推导链](sqrt_chain.gif)
 
 ```text
 两个圆相交
