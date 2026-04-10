@@ -28,7 +28,7 @@ TocOpen: true
 
 让我们看看这个形状到底藏了什么。
 
-![Vesica Piscis 与 √3](/images/two-circles-1/vesica_piscis_sqrt3.png)
+![Vesica Piscis 与 √3 的推导动画](/images/two-circles-1/vesica_piscis_sqrt3.gif)
 
 设两个圆的半径都是 r。因为第二个圆的圆心落在第一个圆的边缘上，两个圆心之间的距离也等于 r。
 
@@ -98,7 +98,7 @@ TocOpen: true
 
 遵循一条规则：**每个新圆的圆心，落在已有圆的交点上。**
 
-![生命之花的构建步骤：从 1 个圆到 19 个圆](/images/two-circles-1/flower_construction_steps.png)
+![生命之花的构建过程动画](/images/two-circles-1/flower_construction_steps.gif)
 
 第一步：1 个圆。
 
