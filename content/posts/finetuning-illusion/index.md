@@ -496,7 +496,7 @@ RLHF 有**两层保护**：
 
 ## 八、一个更深的视角——柏拉图表示假说
 
-2024 年，Hila Nevo 等人提出了一个引人注目的假说——**柏拉图表示假说（The Platonic Representation Hypothesis）**：
+2024 年，Minyoung Huh 等人提出了一个引人注目的假说——**柏拉图表示假说（The Platonic Representation Hypothesis）**：
 
 > 不同的模型——纯文本的 LLM、纯视觉的 ViT、多模态的 CLIP——在预训练中都在**收敛到相似的底层表示**。
 
@@ -591,7 +591,7 @@ $$\text{最终能力} = \min(\text{底座上限}, \text{微调所能够到的范
 
 **预训练的本质**
 
-8. Hila Nevo et al. "The Platonic Representation Hypothesis." *arXiv:2405.07987*, 2024. — 不同模型收敛到相同表示
+8. Huh, M. et al. "The Platonic Representation Hypothesis." *arXiv:2405.07987*, 2024. — 不同模型收敛到相同表示
 9. Lin, S. et al. "The Unlocking Spell on Base LLMs: Rethinking Alignment via In-Context Learning." *ICLR*, 2024. — Base model 其实已经"会"了
 10. Delétang, G. et al. "Language Modeling Is Compression." *arXiv:2309.10668*, 2023. — 语言建模就是压缩
 
