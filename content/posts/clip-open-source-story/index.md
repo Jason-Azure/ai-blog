@@ -56,7 +56,9 @@ OpenAI 把 CLIP 的**模型权重和代码**全部公开了。
 
 CLIP 的开源情况是这样的：
 
-![开源的解剖：OpenAI、LAION、Google/Meta 各自公开了哪些层次](open_source_anatomy.png)
+<div style="text-align: center; margin: 20px 0;">
+<img src="open_source_anatomy.png" alt="开源的解剖：OpenAI、LAION、Google/Meta 各自公开了哪些层次" style="max-width: 90%; height: auto; border-radius: 6px;" />
+</div>
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ "开源"不是二元概念，而是一个光谱——每家公开的层次不同</div>
 
@@ -88,7 +90,9 @@ OpenAI 不公开数据，有人抱怨，有人接受。
 
 LAION 团队的做法非常聪明：
 
-![LAION 如何从互联网爬虫数据中筛选出高质量图文对](laion_pipeline.png)
+<div style="text-align: center; margin: 20px 0;">
+<img src="laion_pipeline.png" alt="LAION 如何从互联网爬虫数据中筛选出高质量图文对" style="max-width: 90%; height: auto; border-radius: 6px;" />
+</div>
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ LAION 的数据流水线：用 CLIP 自己来筛选训练 CLIP 的数据——递归的味道</div>
 
@@ -198,7 +202,9 @@ LAION 用 OpenCLIP 的实验证实了这一点：
 
 CLIP 证明了"对比学习让视觉编码器学会看"这条路是通的。接下来，每一家有野心的 AI 公司都开始造自己的"眼睛"。
 
-![各家的视觉编码器：同一个目标，不同的路径](eyes_comparison.png)
+<div style="text-align: center; margin: 20px 0;">
+<img src="eyes_comparison.png" alt="各家的视觉编码器：同一个目标，不同的路径" style="max-width: 90%; height: auto; border-radius: 6px;" />
+</div>
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ 从 CLIP 出发，各家走出了不同的路线——但目标相同：把图像变成有意义的向量</div>
 
@@ -307,7 +313,9 @@ InternViT 的特点：
 
 从 CLIP 发布到今天，这条线索可以画成一张完整的图：
 
-![CLIP 的涟漪：从一个模型到整个生态的军备竞赛](clip_timeline.png)
+<div style="text-align: center; margin: 20px 0;">
+<img src="clip_timeline.png" alt="CLIP 的涟漪：从一个模型到整个生态的军备竞赛" style="max-width: 90%; height: auto; border-radius: 6px;" />
+</div>
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ 2021-2024：CLIP 引发的视觉 AI 生态演化</div>
 
@@ -421,15 +429,27 @@ Getty Images vs Stability AI（2023 年起诉）：
 
 经过 CLIP 这个案例的解剖，我们可以看到"开源"不是一个是/否的问题，而是一个光谱：
 
-```text
-完全封闭                                                    完全开源
-   ←──────────────────────────────────────────────────────→
-
-GPT-4V        CLIP           LLaMA          OpenCLIP       OLMo 2
-(什么都不公开)  (公开权重和代码   (公开权重       (公开一切，     (公开一切，
-               但不公开数据)    部分公开代码    包括数据)       包括训练日志)
-                              不公开数据)
-```
+<div style="overflow-x: auto; margin: 20px 0;">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6; table-layout: fixed;">
+<tr>
+<td colspan="5" style="padding: 8px 0; text-align: center; font-weight: bold; color: #999; font-size: 13px;">完全封闭 ←———————————————————→ 完全开源</td>
+</tr>
+<tr style="background: #f5f5f5;">
+<td style="padding: 10px 6px; text-align: center; vertical-align: top; width: 20%; border: 1px solid #eee; color: #F44336; font-weight: bold;">GPT-4V</td>
+<td style="padding: 10px 6px; text-align: center; vertical-align: top; width: 20%; border: 1px solid #eee; color: #FF9800; font-weight: bold;">CLIP</td>
+<td style="padding: 10px 6px; text-align: center; vertical-align: top; width: 20%; border: 1px solid #eee; color: #FF9800; font-weight: bold;">LLaMA</td>
+<td style="padding: 10px 6px; text-align: center; vertical-align: top; width: 20%; border: 1px solid #eee; color: #4CAF50; font-weight: bold;">OpenCLIP</td>
+<td style="padding: 10px 6px; text-align: center; vertical-align: top; width: 20%; border: 1px solid #eee; color: #4CAF50; font-weight: bold;">OLMo 2</td>
+</tr>
+<tr>
+<td style="padding: 8px 6px; text-align: center; vertical-align: top; font-size: 12px; color: #666; border: 1px solid #eee; border-top: none;">什么都不公开</td>
+<td style="padding: 8px 6px; text-align: center; vertical-align: top; font-size: 12px; color: #666; border: 1px solid #eee; border-top: none;">公开权重和代码<br/>但不公开数据</td>
+<td style="padding: 8px 6px; text-align: center; vertical-align: top; font-size: 12px; color: #666; border: 1px solid #eee; border-top: none;">公开权重<br/>部分公开代码<br/>不公开数据</td>
+<td style="padding: 8px 6px; text-align: center; vertical-align: top; font-size: 12px; color: #666; border: 1px solid #eee; border-top: none;">公开一切<br/>包括数据</td>
+<td style="padding: 8px 6px; text-align: center; vertical-align: top; font-size: 12px; color: #666; border: 1px solid #eee; border-top: none;">公开一切<br/>包括训练日志</td>
+</tr>
+</table>
+</div>
 
 每一层"开"的意义不同：
 
