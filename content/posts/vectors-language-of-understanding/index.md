@@ -30,7 +30,9 @@ TocOpen: true
 
 当今最强的多模态 AI 是这样工作的：
 
-![不同模态通过各自的编码器进入同一个向量空间，由同一个 Transformer 统一处理](convergence.png)
+<div style="text-align: center; margin: 20px 0;">
+<img src="convergence.png" alt="不同模态通过各自的编码器进入同一个向量空间，由同一个 Transformer 统一处理" style="max-width: 680px; width: 100%; height: auto; border-radius: 6px;" />
+</div>
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ 万物归一：文字、图像、声音——不同的入口，同一个向量空间</div>
 
@@ -101,7 +103,9 @@ TocOpen: true
 
 但真的是这样吗？
 
-![语言能抓住的和语言抓不住的——理解大于语言](language_gap.png)
+<div style="text-align: center; margin: 20px 0;">
+<img src="language_gap.png" alt="语言能抓住的和语言抓不住的——理解大于语言" style="max-width: 680px; width: 100%; height: auto; border-radius: 6px;" />
+</div>
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ 人类的理解范围远大于语言能表达的范围</div>
 
@@ -146,14 +150,14 @@ TocOpen: true
 ```text
 人类语言的世界：
   "猫"  "狗"  "老虎"  "狮子"
-   ●     ●     ●      ●        ← 离散的点，互不连接
+   ●     ●     ●      ●     ← 离散的点，互不连接
 
 向量空间的世界：
-  猫 ────── 狗
-  │          │
-  │          │            ← 连续的空间，点与点之间可以平滑过渡
-  │          │
-  老虎 ───── 狮子
+  猫 ———— 狗
+  |        |
+  |        |     ← 连续的空间，可以平滑过渡
+  |        |
+  老虎 ——— 狮子
 
   你可以有一个"30% 猫 + 70% 狗"的向量
   → 这个向量在人类语言中没有对应的词
@@ -182,30 +186,44 @@ vec("国王") - vec("男人") + vec("女人") ≈ vec("王后")
 
 把人类的理解过程和 AI 的理解过程放在一起看，会发现一个有趣的对称性：
 
-![人类理解和 AI 理解的层层对应——不同的机制，相似的结构](human_vs_ai.png)
+<div style="text-align: center; margin: 20px 0;">
+<img src="human_vs_ai.png" alt="人类理解和 AI 理解的层层对应——不同的机制，相似的结构" style="max-width: 680px; width: 100%; height: auto; border-radius: 6px;" />
+</div>
 
 <div style="text-align: center; font-size: 0.85em; color: #888; margin-top: -10px; margin-bottom: 20px;">▲ 人类用神经元，AI 用向量——但两者的处理流程惊人地相似</div>
 
-```text
-人类                              AI
-────────────────────              ────────────────────
-感官输入                          模态输入
-  眼睛、耳朵、皮肤                  像素、音频波形、字符
-
-神经编码                          编码器
-  视网膜 → 视觉皮层                 ViT / 音频编码器 / Tokenizer
-  耳蜗 → 听觉皮层
-
-概念融合                          向量空间
-  "猫"= 看到的形状 +               所有模态的 token 在
-  听到的叫声 + 摸到的毛             同一个高维空间中
-
-高阶推理                          Attention
-  联想、推理、判断                   计算 token 间的关系
-
-语言输出                          文本生成
-  "我看到了一只猫"                  "This is a cat"
-```
+<div style="overflow-x: auto; margin: 20px 0;">
+<table style="width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.8;">
+<thead>
+<tr>
+<th style="text-align: center; padding: 10px 16px; border-bottom: 3px solid #2196F3; color: #2196F3; font-size: 17px; width: 50%;">🧠 人类</th>
+<th style="text-align: center; padding: 10px 16px; border-bottom: 3px solid #4CAF50; color: #4CAF50; font-size: 17px; width: 50%;">🤖 AI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>感官输入</strong><br/>眼睛、耳朵、皮肤</td>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>模态输入</strong><br/>像素、音频波形、字符</td>
+</tr>
+<tr>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>神经编码</strong><br/>视网膜 → 视觉皮层<br/>耳蜗 → 听觉皮层</td>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>编码器</strong><br/>ViT / 音频编码器 / Tokenizer</td>
+</tr>
+<tr>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>概念融合</strong><br/>"猫"= 看到的形状 +<br/>听到的叫声 + 摸到的毛</td>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>向量空间</strong><br/>所有模态的 token 在<br/>同一个高维空间中</td>
+</tr>
+<tr>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>高阶推理</strong><br/>联想、推理、判断</td>
+<td style="padding: 10px 16px; border-bottom: 1px solid #eee; vertical-align: top;"><strong>Attention</strong><br/>计算 token 间的关系</td>
+</tr>
+<tr>
+<td style="padding: 10px 16px; vertical-align: top;"><strong>语言输出</strong><br/>"我看到了一只猫"</td>
+<td style="padding: 10px 16px; vertical-align: top;"><strong>文本生成</strong><br/>"This is a cat"</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 两者有一个关键的相同点和一个关键的不同点：
 
@@ -469,18 +487,22 @@ LeCun 的批评:
 
 也许，人类的理解是这样一个三层蛋糕：
 
-```text
-┌─────────────────────────────────────────────┐
-│  语言层: 命题、推理、知识体系               │  AI 做得很好
-│  "猫是哺乳动物""E = mc²"                    │  LLM 的主场
-├─────────────────────────────────────────────┤
-│  表示层: 概念、模式、结构                    │  AI 正在学会
-│  向量空间中的聚类和关系                      │  多模态 AI 的前沿
-├─────────────────────────────────────────────┤
-│  体验层: 感受、情感、主观性                  │  AI 可能永远缺失
-│  "这朵花很美""妈妈的味道"                    │  需要"有身体"
-└─────────────────────────────────────────────┘
-```
+<div style="overflow-x: auto; margin: 20px 0;">
+<table style="width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.8;">
+<tr>
+<td style="padding: 12px 16px; background: rgba(76,175,80,0.08); border: 2px solid #4CAF50; border-bottom: 1px solid #4CAF50; vertical-align: top; width: 60%;"><strong>语言层：</strong>命题、推理、知识体系<br/>"猫是哺乳动物""E = mc²"</td>
+<td style="padding: 12px 16px; background: rgba(76,175,80,0.08); border: 2px solid #4CAF50; border-left: none; border-bottom: 1px solid #4CAF50; vertical-align: top; color: #4CAF50; font-weight: bold;">✅ AI 做得很好<br/><span style="font-weight: normal;">LLM 的主场</span></td>
+</tr>
+<tr>
+<td style="padding: 12px 16px; background: rgba(255,152,0,0.08); border: 2px solid #FF9800; border-top: none; border-bottom: 1px solid #FF9800; vertical-align: top;"><strong>表示层：</strong>概念、模式、结构<br/>向量空间中的聚类和关系</td>
+<td style="padding: 12px 16px; background: rgba(255,152,0,0.08); border: 2px solid #FF9800; border-left: none; border-top: none; border-bottom: 1px solid #FF9800; vertical-align: top; color: #FF9800; font-weight: bold;">🔄 AI 正在学会<br/><span style="font-weight: normal;">多模态 AI 的前沿</span></td>
+</tr>
+<tr>
+<td style="padding: 12px 16px; background: rgba(244,67,54,0.08); border: 2px solid #F44336; border-top: none; vertical-align: top;"><strong>体验层：</strong>感受、情感、主观性<br/>"这朵花很美""妈妈的味道"</td>
+<td style="padding: 12px 16px; background: rgba(244,67,54,0.08); border: 2px solid #F44336; border-left: none; border-top: none; vertical-align: top; color: #F44336; font-weight: bold;">❓ AI 可能永远缺失<br/><span style="font-weight: normal;">需要"有身体"</span></td>
+</tr>
+</table>
+</div>
 
 AI 正在征服前两层。第三层——也许那是人类最后的领地。
 
