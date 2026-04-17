@@ -25,8 +25,8 @@ def make_ink_diffusion():
     np.random.seed(42)
     N_PARTICLES = 800
     N_CELLS = 100
-    N_FRAMES = 120  # frames
-    STEPS_PER_FRAME = 8
+    N_FRAMES = 160
+    STEPS_PER_FRAME = 3
 
     positions = np.full(N_PARTICLES, N_CELLS // 2, dtype=int)
     history_positions = []
@@ -94,7 +94,7 @@ def make_ink_diffusion():
                                     interval=60, blit=True)
     plt.tight_layout()
     out_path = os.path.join(OUT, "ink_diffusion.gif")
-    anim.save(out_path, writer='pillow', fps=18, dpi=90)
+    anim.save(out_path, writer='pillow', fps=12, dpi=90)
     plt.close(fig)
     size_kb = os.path.getsize(out_path) // 1024
     print(f"  ✓ {out_path}  ({size_kb} KB)")
