@@ -33,7 +33,7 @@ TocOpen: true
 > <div style="border-left: 3px solid #FF9800; padding-left: 12px; margin-bottom: 6px; background: rgba(255,152,0,0.05); padding: 8px 12px; border-radius: 0 4px 4px 0;">
 > <strong>▸ 第四篇（本文）：动量——惯性的力量</strong></div>
 > <div style="border-left: 3px solid #ccc; padding-left: 12px; padding: 8px 12px; color: #888;">
-> ▹ 第五篇：热与分子——承认无知（即将发布）</div>
+> ▹ <a href="/ai-blog/posts/see-physics-5-entropy/" style="color: #888;">第五篇：熵——承认无知的勇气</a></div>
 > </div>
 
 ---
