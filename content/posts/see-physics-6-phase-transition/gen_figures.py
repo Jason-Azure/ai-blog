@@ -117,7 +117,7 @@ def make_double_descent_gif():
 
     # Static decorations
     ax.set_xlim(-0.2, 10.5)
-    ax.set_ylim(-0.05, 1.6)
+    ax.set_ylim(-0.05, 2.3)
     ax.set_xlabel('模型复杂度（参数量 / 数据量）', fontsize=12)
     ax.set_ylabel('误差', fontsize=12)
     ax.set_title('Double Descent：误差下降了两次',
@@ -168,7 +168,7 @@ def make_double_descent_gif():
             if frame == 30:
                 stop_line.set_alpha(0.7)
                 ax.annotate('传统观点：\n到这里就该停了',
-                            xy=(3.0, 0.22), xytext=(1.0, 0.75),
+                            xy=(3.0, 0.22), xytext=(1.0, 1.0),
                             fontsize=12, color='#555', ha='center',
                             fontweight='bold',
                             arrowprops=dict(arrowstyle='->', color='#888', lw=1.5),
@@ -186,7 +186,7 @@ def make_double_descent_gif():
                 zone_danger.set_alpha(0.12)
                 ax.annotate('插值峰值\n（过拟合最严重）',
                             xy=(4.5, dd_curve(4.5) + 0.05),
-                            xytext=(6.5, 1.4),
+                            xytext=(7.0, 2.1),
                             fontsize=11, color='#E65100', ha='center',
                             fontweight='bold',
                             arrowprops=dict(arrowstyle='->', color='#FF9800', lw=1.5),
@@ -203,7 +203,7 @@ def make_double_descent_gif():
                 zone_modern.set_alpha(0.12)
                 ax.annotate('第二次下降！\n现代大模型在这里',
                             xy=(8.5, dd_curve(8.5)),
-                            xytext=(8.5, 0.8),
+                            xytext=(8.5, 1.2),
                             fontsize=12, color='#2E7D32', ha='center',
                             fontweight='bold',
                             arrowprops=dict(arrowstyle='->', color='#4CAF50', lw=1.8),
@@ -300,36 +300,36 @@ def make_grokking_gif():
         if frame == 8 and 'overfit' not in annotated:
             annotated.add('overfit')
             ax.annotate('100 步：训练集已完全记住',
-                        xy=(100, 100), xytext=(3000, 95),
-                        fontsize=11, color='#1565C0', ha='center',
+                        xy=(100, 100), xytext=(2200, 78),
+                        fontsize=10, color='#1565C0', ha='center',
                         arrowprops=dict(arrowstyle='->', color='#1E88E5', lw=1.3),
-                        bbox=dict(boxstyle='round,pad=0.4', facecolor='#E3F2FD',
+                        bbox=dict(boxstyle='round,pad=0.3', facecolor='#E3F2FD',
                                   edgecolor='#90CAF9'))
 
         if frame == 20 and 'plateau' not in annotated:
             annotated.add('plateau')
             ax.annotate('测试准确率 ≈ 1%\n（随机猜 = 1/97）\n模型只是在"背答案"',
-                        xy=(5000, 1), xytext=(5000, 45),
-                        fontsize=11, color='#C62828', ha='center',
+                        xy=(5000, 1), xytext=(6500, 38),
+                        fontsize=10, color='#C62828', ha='center',
                         arrowprops=dict(arrowstyle='->', color='#E53935', lw=1.3),
-                        bbox=dict(boxstyle='round,pad=0.5', facecolor='#FFEBEE',
+                        bbox=dict(boxstyle='round,pad=0.4', facecolor='#FFEBEE',
                                   edgecolor='#EF9A9A'))
             # Add shaded "memorization zone"
             ax.axvspan(100, 9500, alpha=0.06, color='#E53935')
-            ax.text(4800, 108, '← 记忆阶段 →', fontsize=10, color='#C62828',
+            ax.text(4800, 108, '← 记忆阶段 →', fontsize=9, color='#C62828',
                     ha='center', style='italic')
 
         if frame == 45 and 'grok' not in annotated:
             annotated.add('grok')
             ax.annotate('突然"开窍"！\n从背答案 → 理解规则',
-                        xy=(10500, 50), xytext=(13000, 45),
-                        fontsize=12, color='#2E7D32', ha='center',
+                        xy=(10500, 50), xytext=(13200, 38),
+                        fontsize=11, color='#2E7D32', ha='center',
                         fontweight='bold',
                         arrowprops=dict(arrowstyle='->', color='#4CAF50', lw=1.8),
-                        bbox=dict(boxstyle='round,pad=0.5', facecolor='#E8F5E9',
+                        bbox=dict(boxstyle='round,pad=0.4', facecolor='#E8F5E9',
                                   edgecolor='#81C784'))
             ax.axvspan(9500, 11500, alpha=0.08, color='#FF9800')
-            ax.text(10500, 108, '相变！', fontsize=11, color='#E65100',
+            ax.text(10500, 108, '相变！', fontsize=10, color='#E65100',
                     ha='center', fontweight='bold')
 
         return line_train, line_test
