@@ -16,18 +16,15 @@ os.makedirs(OUT, exist_ok=True)
 
 def make_emergence():
     print("→ emergence.png ...")
-    # x: log10 of params (8 → 12, i.e. 100M → 1T)
     x = np.linspace(8, 12, 200)
 
-    # Three tasks with different critical points
     def sigmoid(x, x0, k=4):
         return 1.0 / (1.0 + np.exp(-k * (x - x0)))
 
-    y_add = sigmoid(x, 10.2) * 0.95       # 3-digit addition
-    y_cot = sigmoid(x, 10.8) * 0.80       # chain of thought
-    y_math = sigmoid(x, 11.3) * 0.60      # college math
+    y_add = sigmoid(x, 10.2) * 0.95
+    y_cot = sigmoid(x, 10.8) * 0.80
+    y_math = sigmoid(x, 11.3) * 0.60
 
-    # Add noise
     rng = np.random.default_rng(42)
     y_add += rng.normal(0, 0.005, size=x.size)
     y_cot += rng.normal(0, 0.005, size=x.size)
@@ -40,11 +37,9 @@ def make_emergence():
     ax.plot(x, y_cot * 100, color='#4CAF50', linewidth=2.5, label='思维链推理')
     ax.plot(x, y_math * 100, color='#9C27B0', linewidth=2.5, label='大学数学')
 
-    # Mark critical transitions with vertical dotted lines
     for x0, color in [(10.2, '#2196F3'), (10.8, '#4CAF50'), (11.3, '#9C27B0')]:
         ax.axvline(x0, color=color, linestyle=':', alpha=0.5, linewidth=1.2)
 
-    # Annotation for "flat ... then jump"
     ax.annotate('平，平，平 ...',
                 xy=(9.2, 8), xytext=(9.2, 25),
                 fontsize=12, color='#555', ha='center',
@@ -67,7 +62,6 @@ def make_emergence():
     ax.spines['right'].set_visible(False)
     ax.legend(loc='upper left', fontsize=11, frameon=True)
 
-    # Bottom annotation
     fig.text(0.5, -0.02,
              '每条曲线都像居里温度附近的磁化曲线：低于临界点接近零，过了临界点集体起飞。',
              ha='center', fontsize=11, color='#444', style='italic',
