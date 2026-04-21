@@ -100,12 +100,6 @@ def make_double_slit_gif():
     anim = FuncAnimation(fig, update, frames=total_frames, interval=120, blit=False)
 
     plt.tight_layout()
-    fig.text(0.5, -0.02,
-             '每个电子落点都是"随机的"。但只要落得够多，|ψ|² 画出的干涉条纹就会自己浮现——'
-             '它是全体未来的统计，不是任何一颗粒子的"真实路径"。',
-             ha='center', fontsize=10.5, color='#444', style='italic',
-             bbox=dict(boxstyle='round,pad=0.5', facecolor='#F3E5F5',
-                       edgecolor='#9C27B0', linewidth=1.0))
 
     out = os.path.join(OUT, 'double_slit.gif')
     anim.save(out, writer=PillowWriter(fps=10), dpi=110)
@@ -198,13 +192,6 @@ def make_wave_collapse_gif():
         return line, stage_text, marker
 
     anim = FuncAnimation(fig, update, frames=total_frames, interval=90, blit=False)
-
-    fig.text(0.5, -0.03,
-             '测量前：|ψ|² 是一片"可能性的云"。测量瞬间：云坍缩成一个确定的点。'
-             '这不是云"原本就在那里只是我们看不清"——是看这个动作本身改写了云。',
-             ha='center', fontsize=10.5, color='#444', style='italic',
-             bbox=dict(boxstyle='round,pad=0.5', facecolor='#E3F2FD',
-                       edgecolor='#42A5F5', linewidth=1.0))
 
     plt.tight_layout()
     out = os.path.join(OUT, 'wave_collapse.gif')
